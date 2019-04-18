@@ -1,6 +1,6 @@
 /*
 Package glen provides a VERY simple API with two structs that combined can get
-GitLab environment varaibles from a local repo with a GitLab remote.
+GitLab environment variables from a local repo with a GitLab remote.
 
 Repo
 
