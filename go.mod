@@ -3,10 +3,9 @@ module github.com/lingrino/glen
 go 1.12
 
 require (
-	github.com/Lingrino/vaku v1.1.0 // indirect
-	github.com/hashicorp/vault/api v1.0.1 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/golang/protobuf v1.3.1 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
-	github.com/lingrino/vaku v1.1.0 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/olekukonko/tablewriter v0.0.1
 	github.com/pkg/errors v0.8.1

@@ -8,11 +8,12 @@ validate:
   stage: validate
   script:
     - test -z $(gofmt -l -w -s .) # Make sure no formatting is needed
-    - test -z $(go mod tidy)      # Make sure there's no unused packages
 
 release:
   stage: release
   only:
-    - ztags
+    - tags
+  except:
+    - branches
   script:
     - curl -sL https://git.io/goreleaser | bash
