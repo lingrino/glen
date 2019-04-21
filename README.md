@@ -78,3 +78,10 @@ notice a bug with glen plesae file an issue or submit a PR.
 
 Also, all contributions and ideas are welcome! Please submit an issue or a PR with anything that you
 think could be improved.
+
+In particular, this project could benefit from the following:
+
+- [ ] Tests that mock git repos
+- [ ] Use [go-git][] instead of relying on git being installed
+
+[go-git]: https://github.com/src-d/go-git
