@@ -1,4 +1,4 @@
-image: goreleaser/goreleaser:latest
+image: golang:latest
 
 stages:
   - validate
@@ -13,6 +13,6 @@ validate:
 release:
   stage: release
   only:
-    - tags
+    - ztags
   script:
-    - goreleaser
+    - curl -sL https://git.io/goreleaser | bash
