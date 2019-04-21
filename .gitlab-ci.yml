@@ -12,6 +12,7 @@ validate:
 
 release:
   stage: release
-  only: tags
+  only:
+    - tags
   script:
     - goreleaser
