@@ -1,26 +1,47 @@
 # Glen
 
+[![Glen](assets/logo-md.png?raw=true)](assets/logo-md.png "Glen")
+
 [![Go Report Card](https://goreportcard.com/badge/github.com/lingrino/glen)](https://goreportcard.com/report/github.com/lingrino/glen)
 [![GoDoc](https://godoc.org/github.com/lingrino/glen/glen?status.svg)](https://godoc.org/github.com/lingrino/glen/glen)
 
-Glen is a simple command line tool that, when run within a GitLab project, will call the
-GitLab API to get all environment variables from your project's CI/CD pipeline and print
+Glen is a simple command line tool that, when run within a local GitLab project, will call
+the GitLab API to get all environment variables from your project's CI/CD pipeline and print
 them locally, ready for exporting.
 
-With the default flags you can run 'eval $(glen -r)' to export your project's variables
+With the default flags you can run `eval $(glen -r)` to export your project's variables
 and the variables of every parent group.
 
 Note that glen requires that you have 'git' installed locally and in your PATH.
 
 ## Installation
 
-```text
-go get github.com/lingrino/glen
+Glen can be installed by downloading the latest binary from the releases page and adding it
+to your path.
+
+Alternatively you can install glen using `go get`, assuming you have `$GOPATH/bin` in your path.
+
+```console
+go get -u github.com/lingrino/glen
 ```
 
 ## Usage
 
-```text
+By default glen assumes that you have a GitLab API key exported as `GITLAB_TOKEN` and that you are
+calling glen from within a git repo where the GitLab remote is named `origin` (see `git remote -v`).
+
+You can override all of these settings, specifying the API key, git directory, or GitLab remote name
+as flags on the command line (see `glen --help`).
+
+By default glen will only get the variables from the current GitLab project. If you would also like
+glen to merge in variables from all of the project's parent groups then you can use `glen -r`
+
+Lastly, the default output for glen is called `export`, meaning that the ouput is ready to be read
+into your shell and will export all variables. This lets you call glen as `eval $(glen)` as a one
+line command to export all variables locally. You can also specify a `json` or `table` output for
+more machine or human friendly outputs.
+
+```console
 $ glen --help
 Glen is a simple command line tool that, when run within a GitLab project,
 will call the GitLab API to get all environment variables from your project's
@@ -43,14 +64,10 @@ Flags:
   -n, --remote-name string   The name of the GitLab remote in your git repo. Defaults to 'origin'. Check with 'git remote -v' (default "origin")
 ```
 
-## Improvements
+## Contributing
 
-Glen is working and ready to use. Glen will be tagged `v1.0.0` after the following are complete:
+Glen does one thing (reads variables from GitLab projects) and should do that one thing well. If you
+notice a bug with glen plesae file an issue or submit a PR.
 
-- [ ] Tests (coverage badge in README)
-- [ ] Detailed README/Docs
-- [ ] Automated Releases
-- [ ] Mirroring to GitLab
-- [ ] CI/CD on GitLab
-
-Issues or PRs are welcome for any functionality you would like to see!
+Also, all contributions and ideas are welcome! Please submit an issue or a PR with anything that you
+think could be improved.
