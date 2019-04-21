@@ -48,7 +48,10 @@ func (v *Variables) Init() error {
 
 	// Initialize the GitLab client
 	glc := gitlab.NewClient(nil, v.apiKey)
-	glc.SetBaseURL("https://" + v.Repo.BaseURL + "/api/v4")
+	err = glc.SetBaseURL("https://" + v.Repo.BaseURL + "/api/v4")
+	if err != nil {
+		return errors.Wrap(err, "Failed to set gitlab client base URL")
+	}
 
 	// Get variables from the parent groups, if recurse
 	if v.Recurse {

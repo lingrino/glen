@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var version = "dev"
+
 var rootCmd = &cobra.Command{
 	Use:   "glen",
 	Short: "glen prints variables for a GitLab project and it's parent groups",
@@ -57,7 +59,9 @@ func init() {
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
-func Execute() {
+func Execute(vers string) {
+	version = vers
+
 	err := rootCmd.Execute()
 	if err != nil {
 		log.Fatal(err)
