@@ -42,7 +42,7 @@ line command to export all variables locally. You can also specify a `json` or `
 more machine or human friendly outputs.
 
 ```console
-$ glen --help
+❯ glen --help
 Glen is a simple command line tool that, when run within a GitLab project,
 will call the GitLab API to get all environment variables from your project's
 CI/CD pipeline and print them locally, ready for exporting.
@@ -54,6 +54,11 @@ Note that glen requires that you have 'git' installed locally and in your PATH.
 
 Usage:
   glen [flags]
+  glen [command]
+
+Available Commands:
+  help        Help about any command
+  version     Returns the current glen version
 
 Flags:
   -k, --api-key string       Your GitLab API key. NOTE - It's preferrable to specify your key as a GITLAB_TOKEN environment variable (default "GITLAB_TOKEN")
@@ -62,6 +67,8 @@ Flags:
   -o, --output string        The output format. One of 'export', 'json', 'table'. Defaults to 'export', which can be executed to export all variables. (default "export")
   -r, --recurse              Set recurse to true if you want to include the variables of the parent groups
   -n, --remote-name string   The name of the GitLab remote in your git repo. Defaults to 'origin'. Check with 'git remote -v' (default "origin")
+
+Use "glen [command] --help" for more information about a command.
 ```
 
 ## Contributing
