@@ -5,7 +5,7 @@ env:
 before:
   hooks:
     - go mod download
-archive:
+archives:
   replacements:
     darwin: Darwin
     linux: Linux
