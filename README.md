@@ -16,7 +16,13 @@ Note that glen requires that you have 'git' installed locally and in your PATH.
 
 ## Installation
 
-Glen can be installed by downloading the latest binary from the releases page and adding it
+The easiest way to install glen is with [homebrew][]
+
+```console
+brew install lingrino/tap/glen
+```
+
+Glen can also be installed by downloading the latest binary from the releases page and adding it
 to your path.
 
 Alternatively you can install glen using `go get`, assuming you have `$GOPATH/bin` in your path.
@@ -84,4 +90,5 @@ In particular, this project could benefit from the following:
 - [ ] Tests that mock git repos
 - [ ] Use [go-git][] instead of relying on git being installed
 
+[homebrew]: https://brew.sh/
 [go-git]: https://github.com/src-d/go-git
