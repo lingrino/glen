@@ -48,6 +48,7 @@ func (r *Repo) Init() error {
 	if strings.Contains(remote, "@") {
 		r.IsSSH = true
 		r.IsHTTP = false
+
 		remote = strings.TrimSpace(remote)
 		remote = strings.TrimPrefix(remote, "git@")
 		remote = strings.TrimSuffix(remote, ".git")
