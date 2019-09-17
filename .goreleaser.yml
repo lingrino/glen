@@ -28,7 +28,7 @@ brew:
     name: homebrew-tap
   commit_author:
     name: Sean Lingren
-    email: srlingren@gmail.com
+    email: sean@lingrino.com
   folder: Formula
   dependencies:
     - git
