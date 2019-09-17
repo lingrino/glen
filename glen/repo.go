@@ -2,11 +2,10 @@ package glen
 
 import (
 	"fmt"
-	"os/exec"
 	"path"
 	"strings"
 
-	"github.com/pkg/errors"
+	git "gopkg.in/src-d/go-git.v4"
 )
 
 // Repo represents information about a git repo
@@ -42,23 +41,8 @@ func NewRepo() *Repo {
 
 // Init gathers information about the repo struct, populating all required fields
 func (r *Repo) Init() error {
-	var err error
-
-	// Make sure git is installed
-	_, err = exec.LookPath("git")
-	if err != nil {
-		return errors.Wrapf(err, "'git' is not installed and in your path")
-	}
-
-	// Get information about the GitLab remote
-	remoteOUT, err := exec.Command("git", "-C", r.LocalPath, "remote", "get-url", r.RemoteName).CombinedOutput()
-	if err != nil {
-		return errors.Wrapf(err, "Failed to get info about the git repo remote: %s", remoteOUT)
-	}
-
 	// We get all needed information about the repo based on the remote url
-	remote := string(remoteOUT)
-	r.RemoteURL = remote
+	remote, err := getRemoteFromLocalRepoPath(r.LocalPath, r.RemoteName)
 
 	// Parse the remote url into needed information, different paths for ssh vs http remotes
 	if strings.Contains(remote, "@") {
@@ -100,4 +84,19 @@ func (r *Repo) Init() error {
 	}
 
 	return err
+}
+
+func getRemoteFromLocalRepoPath(path string, remote string) (string, error) {
+	r, err := git.PlainOpen(path)
+	if err != nil {
+		return "", fmt.Errorf("Unable to open Git Repository (%s) with the following Error: %s", path, err)
+	}
+	rm, err := r.Remote(remote)
+	if err != nil {
+		return "", fmt.Errorf("Unable to find selected Remote (%s) with the following Error: %s", remote, err)
+	}
+
+	firstURL := rm.Config().URLs[0]
+
+	return firstURL, nil
 }
