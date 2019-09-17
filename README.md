@@ -85,4 +85,8 @@ In particular, this project could benefit from the following:
 
 - [ ] Tests that mock git repos
 
+| Contributors |
+| :---: |
+| [@solidnerd](https://github.com/solidnerd) |
+
 [homebrew]: https://brew.sh/
