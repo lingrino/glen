@@ -12,8 +12,6 @@ them locally, ready for exporting.
 With the default flags you can run `eval $(glen -r)` to export your project's variables
 and the variables of every parent group.
 
-Note that glen requires that you have 'git' installed locally and in your PATH.
-
 ## Installation
 
 The easiest way to install glen is with [homebrew][]
@@ -56,8 +54,6 @@ CI/CD pipeline and print them locally, ready for exporting.
 With the default flags you can run 'eval $(glen -r)' to export your project's
 variables and the variables of every parent group.
 
-Note that glen requires that you have 'git' installed locally and in your PATH.
-
 Usage:
   glen [flags]
   glen [command]
@@ -88,7 +84,9 @@ think could be improved.
 In particular, this project could benefit from the following:
 
 - [ ] Tests that mock git repos
-- [ ] Use [go-git][] instead of relying on git being installed
+
+| Contributors |
+| :---: |
+| [@solidnerd](https://github.com/solidnerd) |
 
 [homebrew]: https://brew.sh/
-[go-git]: https://github.com/src-d/go-git

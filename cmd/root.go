@@ -18,9 +18,7 @@ will call the GitLab API to get all environment variables from your project's
 CI/CD pipeline and print them locally, ready for exporting.
 
 With the default flags you can run 'eval $(glen -r)' to export your project's
-variables and the variables of every parent group.
-
-Note that glen requires that you have 'git' installed locally and in your PATH.`,
+variables and the variables of every parent group.`,
 	Args: cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		var err error
