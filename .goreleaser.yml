@@ -30,7 +30,5 @@ brews:
       name: Sean Lingren
       email: sean@lingrino.com
     folder: Formula
-    dependencies:
-      - git
     test: |
       system "#{bin}/glen version"
