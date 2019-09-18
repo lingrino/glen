@@ -19,18 +19,18 @@ snapshot:
   name_template: "{{ .Tag }}-next"
 changelog:
   sort: asc
-brew:
-  name: glen
-  description: "A CLI to export GitLab project and group variables"
-  skip_upload: auto
-  github:
-    owner: lingrino
-    name: homebrew-tap
-  commit_author:
-    name: Sean Lingren
-    email: sean@lingrino.com
-  folder: Formula
-  dependencies:
-    - git
-  test: |
-    system "#{bin}/glen version"
+brews:
+  - name: glen
+    description: "A CLI to export GitLab project and group variables"
+    skip_upload: auto
+    github:
+      owner: lingrino
+      name: homebrew-tap
+    commit_author:
+      name: Sean Lingren
+      email: sean@lingrino.com
+    folder: Formula
+    dependencies:
+      - git
+    test: |
+      system "#{bin}/glen version"
