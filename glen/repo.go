@@ -45,7 +45,8 @@ func (r *Repo) Init() error {
 	remote, err := getRemoteFromLocalRepoPath(r.LocalPath, r.RemoteName)
 
 	// Parse the remote url into needed information, different paths for ssh vs http remotes
-	if strings.Contains(remote, "@") {
+	switch {
+	case strings.Contains(remote, "@"):
 		r.IsSSH = true
 		r.IsHTTP = false
 
@@ -57,7 +58,7 @@ func (r *Repo) Init() error {
 		r.HTTPURL = remoteS[0] + "/" + remoteS[1]
 		r.BaseURL = remoteS[0]
 		r.Path = remoteS[1]
-	} else if strings.Contains(remote, "://") {
+	case strings.Contains(remote, "://"):
 		r.IsSSH = false
 		r.IsHTTP = true
 
@@ -70,8 +71,8 @@ func (r *Repo) Init() error {
 		r.HTTPURL = remote
 		r.BaseURL = remoteS[0]
 		r.Path = remoteS[1]
-	} else {
-		return fmt.Errorf("Your remote (%s), %s, is not an SSH or HTTP remote", r.RemoteName, remote)
+	default:
+		return fmt.Errorf("your remote (%s), %s, is not an SSH or HTTP remote", r.RemoteName, remote)
 	}
 
 	// We create a list of gitlab groups that we can collect variables from. These are
@@ -89,11 +90,11 @@ func (r *Repo) Init() error {
 func getRemoteFromLocalRepoPath(path string, remote string) (string, error) {
 	r, err := git.PlainOpen(path)
 	if err != nil {
-		return "", fmt.Errorf("Unable to open Git Repository (%s) with the following Error: %s", path, err)
+		return "", fmt.Errorf("unable to open git repository (%s) with the following error: %s", path, err)
 	}
 	rm, err := r.Remote(remote)
 	if err != nil {
-		return "", fmt.Errorf("Unable to find selected Remote (%s) with the following Error: %s", remote, err)
+		return "", fmt.Errorf("unable to find selected remote (%s) with the following error: %s", remote, err)
 	}
 
 	firstURL := rm.Config().URLs[0]
