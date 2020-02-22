@@ -1,9 +1,9 @@
 package glen
 
 import (
+	"fmt"
 	"os"
 
-	"github.com/pkg/errors"
 	"github.com/xanzy/go-gitlab"
 )
 
@@ -50,7 +50,7 @@ func (v *Variables) Init() error {
 	glc := gitlab.NewClient(nil, v.apiKey)
 	err = glc.SetBaseURL("https://" + v.Repo.BaseURL + "/api/v4")
 	if err != nil {
-		return errors.Wrap(err, "Failed to set gitlab client base URL")
+		return fmt.Errorf("failed to set gitlab client base URL: %w", err)
 	}
 
 	// Get variables from the parent groups, if recurse
@@ -58,7 +58,7 @@ func (v *Variables) Init() error {
 		for _, group := range v.Repo.Groups {
 			gvs, _, err := glc.GroupVariables.ListVariables(group)
 			if err != nil {
-				return errors.Wrapf(err, "Failed to get variables from group: %s", group)
+				return fmt.Errorf("failed to get variables from group %s: %w", group, err)
 			}
 			for _, gv := range gvs {
 				v.Env[gv.Key] = gv.Value
@@ -69,7 +69,7 @@ func (v *Variables) Init() error {
 	// Get the project variables and add them to v.Env
 	pvs, _, err := glc.ProjectVariables.ListVariables(v.Repo.Path)
 	if err != nil {
-		return errors.Wrapf(err, "Failed to get variables from project: %s", v.Repo.Path)
+		return fmt.Errorf("failed to get variables from project %s: %w", v.Repo.Path, err)
 	}
 	for _, pv := range pvs {
 		v.Env[pv.Key] = pv.Value
