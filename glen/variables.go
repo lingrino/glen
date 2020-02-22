@@ -56,7 +56,7 @@ func (v *Variables) Init() error {
 	// Get variables from the parent groups, if recurse
 	if v.Recurse {
 		for _, group := range v.Repo.Groups {
-			gvs, _, err := glc.GroupVariables.ListVariables(group)
+			gvs, _, err := glc.GroupVariables.ListVariables(group, nil)
 			if err != nil {
 				return fmt.Errorf("failed to get variables from group %s: %w", group, err)
 			}
@@ -67,7 +67,7 @@ func (v *Variables) Init() error {
 	}
 
 	// Get the project variables and add them to v.Env
-	pvs, _, err := glc.ProjectVariables.ListVariables(v.Repo.Path)
+	pvs, _, err := glc.ProjectVariables.ListVariables(v.Repo.Path, nil)
 	if err != nil {
 		return fmt.Errorf("failed to get variables from project %s: %w", v.Repo.Path, err)
 	}
