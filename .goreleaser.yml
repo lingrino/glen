@@ -56,7 +56,7 @@ brews:
       name: "{{ .Env.NAME }}"
       email: "{{ .Env.EMAIL }}"
     test: |
-      system "#{bin}/{{ .Binary }} version"
+      system "#{bin}/{{ .ProjectName }} version"
 scoop:
   bucket:
     owner: "{{ .Env.GHOWNER }}"
