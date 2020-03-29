@@ -1,34 +1,91 @@
 project_name: glen
 env:
-  - CGO_ENABLED=0
   - GO111MODULE=on
+  - NAME=Sean Lingren
+  - EMAIL=sean@lingrino.com
+  - GHOWNER=lingrino
+  - HOMEPAGE=https://lingrino.com/
+  - DESCRIPTION=A CLI to gather GitLab project and group variables
 before:
   hooks:
     - go mod download
-archives:
-  - id: glen
-    replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      386: i386
-      amd64: x86_64
-checksum:
-  name_template: 'checksums.txt'
-snapshot:
-  name_template: "{{ .Tag }}-next"
+builds:
+  - id: "{{ .ProjectName }}"
+    binary: "{{ .ProjectName }}"
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - 386
+      - amd64
+      - arm
+      - arm64
+    ignore:
+      - goos: darwin
+        goarch: 386
+    env:
+      - CGO_ENABLED=0
+release:
+  prerelease: auto
 changelog:
   sort: asc
+  filters:
+    exclude:
+      - Merge pull request
+      - Merge branch
+archives:
+  - id: "{{ .ProjectName }}"
+    format: zip
+    replacements:
+      386: i386
+      amd64: x86_64
+      darwin: mac
+      linux: linux
+      windows: windows
 brews:
-  - name: glen
-    description: "A CLI to export GitLab project and group variables"
+  - name: "{{ .ProjectName }}"
+    description: "{{ .Env.Description }}"
+    homepage: "{{ .Env.HOMEPAGE }}"
     skip_upload: auto
     github:
-      owner: lingrino
+      owner: "{{ .Env.GHOWNER }}"
       name: homebrew-tap
-    commit_author:
-      name: Sean Lingren
-      email: sean@lingrino.com
     folder: Formula
+    commit_author:
+      name: "{{ .Env.Name }}"
+      email: "{{ .Env.Email }}"
     test: |
-      system "#{bin}/glen version"
+      system "#{bin}/{{ .Binary }} version"
+scoop:
+  bucket:
+    owner: "{{ .Env.GHOWNER }}"
+    name: scoop-{{ .ProjectName }}
+  description: "{{ .Env.Description }}"
+  homepage: "{{ .Env.HOMEPAGE }}"
+  license: MIT
+  commit_author:
+    name: "{{ .Env.Name }}"
+    email: "{{ .Env.Email }}"
+nfpms:
+  - id: "{{ .ProjectName }}"
+    description: "{{ .Env.Description }}"
+    homepage: "{{ .Env.HOMEPAGE }}"
+    maintainer: "{{ .Env.Name }} <{{ .Env.Email }}>"
+    license: MIT
+    formats:
+      - deb
+      - rpm
+    replacements:
+      386: i386
+      amd64: x86_64
+      darwin: mac
+      linux: linux
+      windows: windows
+dockers:
+  - dockerfile: Dockerfile
+    image_templates:
+      - "{{ .Env.GHOWNER }}/{{ .ProjectName }}:latest"
+      - "{{ .Env.GHOWNER }}/{{ .ProjectName }}:{{ .Version }}"
+      - "{{ .Env.GHOWNER }}/{{ .ProjectName }}:{{ .Major }}"
+      - "{{ .Env.GHOWNER }}/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}"
