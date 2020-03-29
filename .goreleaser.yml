@@ -45,7 +45,7 @@ archives:
       windows: windows
 brews:
   - name: "{{ .ProjectName }}"
-    description: "{{ .Env.Description }}"
+    description: "{{ .Env.DESCRIPTION }}"
     homepage: "{{ .Env.HOMEPAGE }}"
     skip_upload: auto
     github:
@@ -53,25 +53,25 @@ brews:
       name: homebrew-tap
     folder: Formula
     commit_author:
-      name: "{{ .Env.Name }}"
-      email: "{{ .Env.Email }}"
+      name: "{{ .Env.NAME }}"
+      email: "{{ .Env.EMAIL }}"
     test: |
       system "#{bin}/{{ .Binary }} version"
 scoop:
   bucket:
     owner: "{{ .Env.GHOWNER }}"
     name: scoop-{{ .ProjectName }}
-  description: "{{ .Env.Description }}"
+  description: "{{ .Env.DESCRIPTION }}"
   homepage: "{{ .Env.HOMEPAGE }}"
   license: MIT
   commit_author:
-    name: "{{ .Env.Name }}"
-    email: "{{ .Env.Email }}"
+    name: "{{ .Env.NAME }}"
+    email: "{{ .Env.EMAIL }}"
 nfpms:
   - id: "{{ .ProjectName }}"
-    description: "{{ .Env.Description }}"
+    description: "{{ .Env.DESCRIPTION }}"
     homepage: "{{ .Env.HOMEPAGE }}"
-    maintainer: "{{ .Env.Name }} <{{ .Env.Email }}>"
+    maintainer: "{{ .Env.NAME }} <{{ .Env.EMAIL }}>"
     license: MIT
     formats:
       - deb
