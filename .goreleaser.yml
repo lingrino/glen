@@ -5,8 +5,8 @@ before:
   hooks:
     - go mod download
 builds:
-  - id: "{{ .ProjectName }}"
-    binary: "{{ .ProjectName }}"
+  - id: glen
+    binary: glen
     goos:
       - darwin
       - linux
@@ -30,7 +30,7 @@ changelog:
       - Merge pull request
       - Merge branch
 archives:
-  - id: "{{ .ProjectName }}"
+  - id: glen
     format: zip
     replacements:
       386: i386
@@ -39,7 +39,7 @@ archives:
       linux: linux
       windows: windows
 brews:
-  - name: "{{ .ProjectName }}"
+  - name: glen
     description: A CLI to gather GitLab project and group variables
     homepage: https://lingrino.com/
     skip_upload: auto
@@ -51,11 +51,11 @@ brews:
       name: Sean Lingren
       email: sean@lingrino.com
     test: |
-      system "#{bin}/{{ .ProjectName }} version"
+      system "#{bin}/glen version"
 scoop:
   bucket:
     owner: lingrino
-    name: scoop-{{ .ProjectName }}
+    name: scoop-glen
   description: A CLI to gather GitLab project and group variables
   homepage: https://lingrino.com/
   license: MIT
@@ -63,7 +63,7 @@ scoop:
     name: Sean Lingren
     email: sean@lingrino.com
 nfpms:
-  - id: "{{ .ProjectName }}"
+  - id: glen
     description: A CLI to gather GitLab project and group variables
     homepage: https://lingrino.com/
     maintainer: "Sean Lingren <sean@lingrino.com>"
@@ -80,7 +80,7 @@ nfpms:
 dockers:
   - dockerfile: Dockerfile
     image_templates:
-      - lingrino/{{ .ProjectName }}:latest
-      - lingrino/{{ .ProjectName }}:{{ .Version }}
-      - lingrino/{{ .ProjectName }}:{{ .Major }}
-      - lingrino/{{ .ProjectName }}:{{ .Major }}.{{ .Minor }}
+      - lingrino/glen:latest
+      - lingrino/glen:{{ .Version }}
+      - lingrino/glen:{{ .Major }}
+      - lingrino/glen:{{ .Major }}.{{ .Minor }}
