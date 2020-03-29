@@ -17,5 +17,4 @@ require (
 	golang.org/x/sys v0.0.0-20200327173247-9dae0f8f5775 // indirect
 	google.golang.org/appengine v1.6.5 // indirect
 	gopkg.in/src-d/go-git.v4 v4.13.1
-	gotest.tools v2.2.0+incompatible
 )
