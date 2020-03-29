@@ -1,11 +1,11 @@
-project_name: vaku
+project_name: glen
 env:
   - GO111MODULE=on
   - NAME=Sean Lingren
   - EMAIL=sean@lingrino.com
   - GHOWNER=lingrino
-  - HOMEPAGE="{{ .Env.HOMEPAGE }}"
-  - DESCRIPTION="{{ .Env.Description }}"
+  - HOMEPAGE=https://lingrino.com/
+  - DESCRIPTION=A CLI to gather GitLab project and group variables
 before:
   hooks:
     - go mod download
