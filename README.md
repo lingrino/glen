@@ -2,7 +2,7 @@
 
 [![Glen](assets/logo-md.png?raw=true)](assets/logo-md.png "Glen")
 
-[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/lingrino/glen/glen)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/lingrino/glen/glen)](https://pkg.go.dev/github.com/lingrino/glen/glen)
 [![goreportcard](https://goreportcard.com/badge/github.com/lingrino/glen)](https://goreportcard.com/report/github.com/lingrino/glen)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ee937bcc91cc30e6dafc/maintainability)](https://codeclimate.com/github/lingrino/glen/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ee937bcc91cc30e6dafc/test_coverage)](https://codeclimate.com/github/lingrino/glen/test_coverage)
@@ -77,8 +77,8 @@ In particular, this project could benefit from the following:
 
 - [ ] Tests that mock git repos
 
-| Contributors |
-| :---: |
+|                Contributors                |
+| :----------------------------------------: |
 | [@solidnerd](https://github.com/solidnerd) |
 
 [homebrew]: https://brew.sh/
