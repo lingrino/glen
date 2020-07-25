@@ -10,7 +10,6 @@ require (
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/stretchr/objx v0.3.0 // indirect
 	github.com/stretchr/testify v1.6.1
 	github.com/xanzy/go-gitlab v0.33.0
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899 // indirect
