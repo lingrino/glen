@@ -43,7 +43,7 @@ brews:
     description: A CLI to gather GitLab project and group variables
     homepage: https://lingrino.com/
     skip_upload: auto
-    github:
+    tap:
       owner: lingrino
       name: homebrew-tap
     folder: Formula
