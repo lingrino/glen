@@ -47,7 +47,8 @@ func (v *Variables) Init() error {
 	var err error
 
 	// Initialize the GitLab client
-	glc, err := gitlab.NewClient(v.apiKey, gitlab.WithBaseURL("https://"+v.Repo.BaseURL+"/api/v4"))
+	glURL := "https://" + v.Repo.BaseURL + "/api/v4"
+	glc, err := gitlab.NewClient(v.apiKey, gitlab.WithBaseURL(glURL))
 	if err != nil {
 		return fmt.Errorf("failed to create gitlab client: %w", err)
 	}
