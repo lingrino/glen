@@ -52,27 +52,58 @@ func (v *Variables) Init() error {
 		return fmt.Errorf("failed to create gitlab client: %w", err)
 	}
 
+	// Gitlab list apis default to 20 per page with 100 being the max.
+	// https://docs.gitlab.com/ee/api/README.html#offset-based-pagination
+	// Set to max to reduce number of API calls required.
+	variablesPerPage := 100
+
 	// Get variables from the parent groups, if recurse
 	if v.Recurse {
+
+		groupVariablesOpt := &gitlab.ListGroupVariablesOptions{
+			PerPage: variablesPerPage,
+			Page:    1,
+		}
+
 		for _, group := range v.Repo.Groups {
-			gvs, _, err := glc.GroupVariables.ListVariables(group, nil)
-			if err != nil {
-				return fmt.Errorf("failed to get variables from group %s: %w", group, err)
-			}
-			for _, gv := range gvs {
-				v.Env[gv.Key] = gv.Value
+			for {
+				gvs, response, err := glc.GroupVariables.ListVariables(group, groupVariablesOpt)
+				if err != nil {
+					return fmt.Errorf("failed to get variables from group %s: %w", group, err)
+				}
+				for _, gv := range gvs {
+					v.Env[gv.Key] = gv.Value
+				}
+
+				if response.CurrentPage >= response.TotalPages {
+					break
+				}
+
+				groupVariablesOpt.Page = response.NextPage
 			}
 		}
 	}
 
 	// Get the project variables and add them to v.Env
-	pvs, _, err := glc.ProjectVariables.ListVariables(v.Repo.Path, nil)
-	if err != nil {
-		return fmt.Errorf("failed to get variables from project %s: %w", v.Repo.Path, err)
-	}
-	for _, pv := range pvs {
-		v.Env[pv.Key] = pv.Value
+	projectVariablesOpt := &gitlab.ListProjectVariablesOptions{
+		PerPage: variablesPerPage,
+		Page:    1,
 	}
 
+	for {
+		pvs, response, err := glc.ProjectVariables.ListVariables(v.Repo.Path, projectVariablesOpt)
+		if err != nil {
+			return fmt.Errorf("failed to get variables from project %s: %w", v.Repo.Path, err)
+		}
+		for _, pv := range pvs {
+			v.Env[pv.Key] = pv.Value
+		}
+
+		if response.CurrentPage >= response.TotalPages {
+			break
+		}
+
+		projectVariablesOpt.Page = response.NextPage
+	}
 	return err
 }
