@@ -60,10 +60,11 @@ func (v *Variables) Init() error {
 
 	// Get variables from the parent groups, if recurse
 	if v.Recurse {
-
 		groupVariablesOpt := &gitlab.ListGroupVariablesOptions{
-			PerPage: variablesPerPage,
-			Page:    1,
+			ListOptions: gitlab.ListOptions{
+				PerPage: variablesPerPage,
+				Page:    1,
+			}
 		}
 
 		for _, group := range v.Repo.Groups {
