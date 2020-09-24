@@ -17,6 +17,11 @@ type Variables struct {
 	apiKey string
 }
 
+// Gitlab list apis default to 20 per page with 100 being the max.
+// https://docs.gitlab.com/ee/api/README.html#offset-based-pagination
+// Set to max to reduce number of API calls required.
+const pageSize = 100
+
 // NewVariables takes a *Repo and returns an empty Variables struct. This
 // assumes that you have a GitLab API key set as GITLAB_TOKEN. If not, make
 // sure you set one with Variables.SetAPIKey(). Note that by default we do not
@@ -40,58 +45,38 @@ func (v *Variables) SetAPIKey(key string) {
 	v.apiKey = key
 }
 
-// Init collects GitLab variables from the repo, and optionally from the parent groups
-// if Variables.Recurse=true. Variable precedence respects
-// https://docs.gitlab.com/ee/ci/variables/#priority-of-environment-variables
-func (v *Variables) Init() error {
-	var err error
+// Get the group variables and add them to v.Env.
+func (v *Variables) getGroupVariables(glc *gitlab.Client, group string) error {
 
-	// Initialize the GitLab client
-	glURL := fmt.Sprintf("https://%s/api/v4", v.Repo.BaseURL)
-	glc, err := gitlab.NewClient(v.apiKey, gitlab.WithBaseURL(glURL))
-	if err != nil {
-		return fmt.Errorf("failed to create gitlab client: %w", err)
+	groupVariablesOpt := &gitlab.ListGroupVariablesOptions{
+		PerPage: pageSize,
+		Page:    1,
 	}
 
-	// Gitlab list apis default to 20 per page with 100 being the max.
-	// https://docs.gitlab.com/ee/api/README.html#offset-based-pagination
-	// Set to max to reduce number of API calls required.
-	variablesPerPage := 100
-
-	// Get variables from the parent groups, if recurse
-	if v.Recurse {
-		groupVariablesOpt := &gitlab.ListGroupVariablesOptions{
-			ListOptions: gitlab.ListOptions{
-				PerPage: variablesPerPage,
-				Page:    1,
-			}
+	for {
+		gvs, response, err := glc.GroupVariables.ListVariables(group, groupVariablesOpt)
+		if err != nil {
+			return fmt.Errorf("failed to get variables from group %s: %w", group, err)
+		}
+		for _, gv := range gvs {
+			v.Env[gv.Key] = gv.Value
 		}
 
-		for _, group := range v.Repo.Groups {
-			for {
-				gvs, response, err := glc.GroupVariables.ListVariables(group, groupVariablesOpt)
-				if err != nil {
-					return fmt.Errorf("failed to get variables from group %s: %w", group, err)
-				}
-				for _, gv := range gvs {
-					v.Env[gv.Key] = gv.Value
-				}
-
-				if response.CurrentPage >= response.TotalPages {
-					break
-				}
-
-				groupVariablesOpt.Page = response.NextPage
-			}
+		if response.CurrentPage >= response.TotalPages {
+			break
 		}
+
+		groupVariablesOpt.Page = response.NextPage
 	}
 
-	// Get the project variables and add them to v.Env
+	return nil
+}
+
+// Get the project variables and add them to v.Env.
+func (v *Variables) getProjectVariables(glc *gitlab.Client) error {
 	projectVariablesOpt := &gitlab.ListProjectVariablesOptions{
-		ListOptions: gitlab.ListOptions{
-			PerPage: variablesPerPage,
-			Page:    1,
-		}
+		PerPage: pageSize,
+		Page:    1,
 	}
 
 	for {
@@ -109,5 +94,31 @@ func (v *Variables) Init() error {
 
 		projectVariablesOpt.Page = response.NextPage
 	}
+
+	return nil
+}
+
+// Init collects GitLab variables from the repo, and optionally from the parent groups
+// if Variables.Recurse=true. Variable precedence respects
+// https://docs.gitlab.com/ee/ci/variables/#priority-of-environment-variables
+func (v *Variables) Init() error {
+	var err error
+
+	// Initialize the GitLab client
+	glURL := fmt.Sprintf("https://%s/api/v4", v.Repo.BaseURL)
+	glc, err := gitlab.NewClient(v.apiKey, gitlab.WithBaseURL(glURL))
+	if err != nil {
+		return fmt.Errorf("failed to create gitlab client: %w", err)
+	}
+
+	// Get variables from the parent groups, if recurse
+	if v.Recurse {
+		for _, group := range v.Repo.Groups {
+			v.getGroupVariables(glc, group)
+		}
+	}
+
+	v.getProjectVariables(glc)
+
 	return err
 }
