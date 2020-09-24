@@ -87,8 +87,10 @@ func (v *Variables) Init() error {
 
 	// Get the project variables and add them to v.Env
 	projectVariablesOpt := &gitlab.ListProjectVariablesOptions{
-		PerPage: variablesPerPage,
-		Page:    1,
+		ListOptions: gitlab.ListOptions{
+			PerPage: variablesPerPage,
+			Page:    1,
+		}
 	}
 
 	for {
