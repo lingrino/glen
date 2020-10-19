@@ -8,7 +8,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.9 // indirect
 	github.com/olekukonko/tablewriter v0.0.4
 	github.com/sergi/go-diff v1.1.0 // indirect
-	github.com/spf13/cobra v1.1.0
+	github.com/spf13/cobra v1.1.1
 	github.com/stretchr/testify v1.6.1
 	github.com/xanzy/go-gitlab v0.38.1
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899 // indirect
