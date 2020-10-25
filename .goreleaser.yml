@@ -40,7 +40,7 @@ archives:
       windows: windows
 brews:
   - name: glen
-    description: A CLI to gather GitLab project and group variables
+    description: A CLI to gather GitLab project and group variables.
     homepage: https://lingrino.com/
     skip_upload: auto
     tap:
@@ -56,7 +56,7 @@ scoop:
   bucket:
     owner: lingrino
     name: scoop-glen
-  description: A CLI to gather GitLab project and group variables
+  description: A CLI to gather GitLab project and group variables.
   homepage: https://lingrino.com/
   license: MIT
   commit_author:
@@ -64,7 +64,7 @@ scoop:
     email: sean@lingrino.com
 nfpms:
   - id: glen
-    description: A CLI to gather GitLab project and group variables
+    description: A CLI to gather GitLab project and group variables.
     homepage: https://lingrino.com/
     maintainer: "Sean Lingren <sean@lingrino.com>"
     license: MIT
@@ -80,7 +80,11 @@ nfpms:
 dockers:
   - dockerfile: Dockerfile
     image_templates:
-      - lingrino/glen:latest
-      - lingrino/glen:{{ .Version }}
-      - lingrino/glen:{{ .Major }}
-      - lingrino/glen:{{ .Major }}.{{ .Minor }}
+      - ghcr.io/lingrino/glen:latest
+      - ghcr.io/lingrino/glen:{{ .Version }}
+      - ghcr.io/lingrino/glen:{{ .Major }}
+      - ghcr.io/lingrino/glen:{{ .Major }}.{{ .Minor }}
+    build_flag_templates:
+      - --label=org.opencontainers.image.created={{.Date}}
+      - --label=org.opencontainers.image.revision={{.FullCommit}}
+      - --label=org.opencontainers.image.version={{.Version}}

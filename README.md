@@ -4,10 +4,9 @@
 
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/lingrino/glen/glen)](https://pkg.go.dev/github.com/lingrino/glen/glen)
 [![goreportcard](https://goreportcard.com/badge/github.com/lingrino/glen)](https://goreportcard.com/report/github.com/lingrino/glen)
-[![Maintainability](https://api.codeclimate.com/v1/badges/ee937bcc91cc30e6dafc/maintainability)](https://codeclimate.com/github/lingrino/glen/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/ee937bcc91cc30e6dafc/test_coverage)](https://codeclimate.com/github/lingrino/glen/test_coverage)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a62ad56516224f37949c75a54d1dc1ee)](https://www.codacy.com/manual/lingrino/glen)
-[![codebeat badge](https://codebeat.co/badges/16721dbc-d4ac-43cd-9da8-e0124690122f)](https://codebeat.co/projects/github-com-lingrino-glen-main)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/ee937bcc91cc30e6dafc/test_coverage)](https://codeclimate.com/github/lingrino/glen/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ee937bcc91cc30e6dafc/maintainability)](https://codeclimate.com/github/lingrino/glen/maintainability)
 
 Glen is a simple command line tool that, when run within a local GitLab project, will call the GitLab API to get all environment variables from your project's CI/CD pipeline and print them locally, ready for exporting.
 
