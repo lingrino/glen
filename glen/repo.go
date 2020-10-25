@@ -8,9 +8,9 @@ import (
 	git "gopkg.in/src-d/go-git.v4"
 )
 
-// Repo represents information about a git repo
+// Repo represents information about a git repo.
 // Repo does not represent ALL information about a repo, only the information
-// needed for this package (for gathering GitLab variables)
+// needed for this package (for gathering GitLab variables).
 type Repo struct {
 	IsSSH  bool
 	IsHTTP bool
@@ -29,7 +29,7 @@ type Repo struct {
 // NewRepo creates a new repo struct with defaults that assume you have a remote named
 // 'origin' and that you are calling this function while your current directory is the
 // repo you're interested in. If you have a custom local path or your remote is not
-// named 'origin' then make sure you set those before you Init() the repo
+// named 'origin' then make sure you set those before you Init() the repo.
 func NewRepo() *Repo {
 	r := &Repo{}
 
@@ -39,7 +39,7 @@ func NewRepo() *Repo {
 	return r
 }
 
-// Init gathers information about the repo struct, populating all required fields
+// Init gathers information about the repo struct, populating all required fields.
 func (r *Repo) Init() error {
 	// We get all needed information about the repo based on the remote url
 	remote, err := getRemoteFromLocalRepoPath(r.LocalPath, r.RemoteName)

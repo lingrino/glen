@@ -1,8 +1,9 @@
+# https://github.com/github/codeql-action
 name: Code Scanning
 
 on:
+  workflow_dispatch:
   push:
-  pull_request:
   schedule:
     - cron: 0 16 * * 1 # Every Monday at 16:00 UTC
 

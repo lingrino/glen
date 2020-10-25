@@ -8,7 +8,7 @@ import (
 )
 
 // Variables represents a set of CI/CD environment variables and
-// the repo that those variables were collected from
+// the repo that those variables were collected from.
 type Variables struct {
 	Env     map[string]string
 	Recurse bool
@@ -26,7 +26,7 @@ const pageSize = 100
 // assumes that you have a GitLab API key set as GITLAB_TOKEN. If not, make
 // sure you set one with Variables.SetAPIKey(). Note that by default we do not
 // 'recurse' and get the group variables. If you want group variables merged
-// in make sure you set Variables.Recurse=true
+// in make sure you set Variables.Recurse=true.
 func NewVariables(r *Repo) *Variables {
 	v := &Variables{}
 
@@ -47,7 +47,6 @@ func (v *Variables) SetAPIKey(key string) {
 
 // Get the group variables and add them to v.Env.
 func (v *Variables) getGroupVariables(glc *gitlab.Client, group string) error {
-
 	groupVariablesOpt := &gitlab.ListGroupVariablesOptions{
 		PerPage: pageSize,
 		Page:    1,
@@ -114,10 +113,12 @@ func (v *Variables) Init() error {
 	// Get variables from the parent groups, if recurse
 	if v.Recurse {
 		for _, group := range v.Repo.Groups {
+			//nolint:errcheck
 			v.getGroupVariables(glc, group)
 		}
 	}
 
+	//nolint:errcheck
 	v.getProjectVariables(glc)
 
 	return err
