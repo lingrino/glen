@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/lingrino/glen/glen"
@@ -84,8 +85,8 @@ func Execute(v string) error {
 
 	err := glen.Execute()
 	if err != nil {
-		return err
+		return fmt.Errorf("execute: %w", err)
 	}
 
-	return err
+	return nil
 }

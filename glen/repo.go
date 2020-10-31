@@ -90,11 +90,11 @@ func (r *Repo) Init() error {
 func getRemoteFromLocalRepoPath(path string, remote string) (string, error) {
 	r, err := git.PlainOpen(path)
 	if err != nil {
-		return "", fmt.Errorf("unable to open git repository (%s) with the following error: %s", path, err)
+		return "", fmt.Errorf("unable to open git repository (%s) with the following error: %w", path, err)
 	}
 	rm, err := r.Remote(remote)
 	if err != nil {
-		return "", fmt.Errorf("unable to find selected remote (%s) with the following error: %s", remote, err)
+		return "", fmt.Errorf("unable to find selected remote (%s) with the following error: %w", remote, err)
 	}
 
 	firstURL := rm.Config().URLs[0]

@@ -6,6 +6,7 @@ linters:
     - dogsled
     - dupl
     - errcheck
+    - errorlint
     - funlen
     - gochecknoglobals
     - gochecknoinits
@@ -34,12 +35,14 @@ linters:
     - staticcheck
     - structcheck
     - stylecheck
+    - tparallel
     - typecheck
     - unconvert
     - unparam
     - unused
     - varcheck
     - whitespace
+    - wrapcheck
   disable:
     - interfacer # deprecated
     - maligned # not worth savings
