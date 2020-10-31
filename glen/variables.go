@@ -121,5 +121,5 @@ func (v *Variables) Init() error {
 	//nolint:errcheck
 	v.getProjectVariables(glc)
 
-	return err
+	return nil
 }
