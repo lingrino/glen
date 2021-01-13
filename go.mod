@@ -9,7 +9,7 @@ require (
 	github.com/olekukonko/tablewriter v0.0.4
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/spf13/cobra v1.1.1
-	github.com/stretchr/testify v1.6.1
+	github.com/stretchr/testify v1.7.0
 	github.com/xanzy/go-gitlab v0.41.0
 	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897 // indirect
 	golang.org/x/net v0.0.0-20201024042810-be3efd7ff127 // indirect
