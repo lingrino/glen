@@ -5,8 +5,7 @@ go 1.15
 require (
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/hashicorp/go-retryablehttp v0.6.7 // indirect
-	github.com/mattn/go-runewidth v0.0.9 // indirect
-	github.com/olekukonko/tablewriter v0.0.4
+	github.com/olekukonko/tablewriter v0.0.5
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/spf13/cobra v1.1.2
 	github.com/stretchr/testify v1.7.0
