@@ -13,7 +13,7 @@ jobs:
       - name: Lint
         uses: golangci/golangci-lint-action@v2.5.2
         with:
-          version: v1.36 # https://github.com/golangci/golangci-lint/releases
+          version: v1.42 # https://github.com/golangci/golangci-lint/releases
   gomod:
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +22,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.16 # https://golang.org/dl/
+          go-version: 1.17 # https://golang.org/dl/
       - name: Go Mod Tidy
         run: test -z $(go mod tidy)
   goreleaser:
@@ -33,7 +33,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.16 # https://golang.org/dl/
+          go-version: 1.17 # https://golang.org/dl/
       - name: Goreleaser Check
         uses: goreleaser/goreleaser-action@v2.7.0
         with:
@@ -46,7 +46,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.16 # https://golang.org/dl/
+          go-version: 1.17 # https://golang.org/dl/
       - name: Cache Modules
         uses: actions/cache@v2.1.6
         with:
