@@ -12,9 +12,6 @@ import (
 // Repo does not represent ALL information about a repo, only the information
 // needed for this package (for gathering GitLab variables).
 type Repo struct {
-	IsSSH  bool
-	IsHTTP bool
-
 	LocalPath  string
 	RemoteName string
 
@@ -46,29 +43,24 @@ func (r *Repo) Init() error {
 
 	// Parse the remote url into needed information, different paths for ssh vs http remotes
 	switch {
-	case strings.Contains(remote, "@"):
-		r.IsSSH = true
-		r.IsHTTP = false
+	case strings.Contains(remote, "://"):
+		remote = strings.TrimSpace(remote)
+		remote = strings.TrimPrefix(remote, "http://")
+		remote = strings.TrimPrefix(remote, "https://")
+		remote = strings.TrimPrefix(remote, "ssh://git@")
+		remote = strings.TrimSuffix(remote, ".git")
+		remoteS := strings.SplitN(remote, "/", 2) //nolint:gomnd
 
+		r.HTTPURL = remote
+		r.BaseURL = remoteS[0]
+		r.Path = remoteS[1]
+	case strings.Contains(remote, "@"):
 		remote = strings.TrimSpace(remote)
 		remote = strings.TrimPrefix(remote, "git@")
 		remote = strings.TrimSuffix(remote, ".git")
 		remoteS := strings.Split(remote, ":")
 
 		r.HTTPURL = remoteS[0] + "/" + remoteS[1]
-		r.BaseURL = remoteS[0]
-		r.Path = remoteS[1]
-	case strings.Contains(remote, "://"):
-		r.IsSSH = false
-		r.IsHTTP = true
-
-		remote = strings.TrimSpace(remote)
-		remote = strings.TrimPrefix(remote, "http://")
-		remote = strings.TrimPrefix(remote, "https://")
-		remote = strings.TrimSuffix(remote, ".git")
-		remoteS := strings.SplitN(remote, "/", 2) //nolint:gomnd
-
-		r.HTTPURL = remote
 		r.BaseURL = remoteS[0]
 		r.Path = remoteS[1]
 	default:
