@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/olekukonko/tablewriter v0.0.5
-	github.com/spf13/cobra v1.3.0
+	github.com/spf13/cobra v1.4.0
 	github.com/stretchr/testify v1.7.0
 	github.com/xanzy/go-gitlab v0.59.0
 	gopkg.in/src-d/go-git.v4 v4.13.1
