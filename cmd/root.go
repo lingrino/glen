@@ -10,7 +10,7 @@ import (
 
 const (
 	flagRecurseDesc      = "Set recurse to true if you want to include the variables of the parent groups"
-	flagAPIKeyDesc       = "Your GitLab API key, if not set as a GITLAB_TOKEN environment variable"
+	flagAPIKeyDesc       = "Your GitLab API key, if not set as a GITLAB_TOKEN environment variable" //nolint:gosec
 	flagDirectoryDesc    = "The directory where you're git repo lives. Defaults to your current working directory"
 	flagRemoteNameDesc   = "Name of the GitLab remote in your git repo. Defaults to 'origin'"
 	flagOutputFormatDesc = "One of 'export', 'json', 'table'. Default 'export', which can be executed to export variables"
