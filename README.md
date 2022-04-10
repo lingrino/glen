@@ -22,7 +22,7 @@ Glen can also be installed by downloading the latest binary from the releases pa
 Alternatively you can install glen using `go get`, assuming you have `$GOPATH/bin` in your path.
 
 ```console
-go get -u github.com/lingrino/glen
+go install github.com/lingrino/glen@latest
 ```
 
 ## Usage
