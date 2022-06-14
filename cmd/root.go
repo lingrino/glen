@@ -14,6 +14,7 @@ const (
 	flagDirectoryDesc    = "The directory where you're git repo lives. Defaults to your current working directory"
 	flagRemoteNameDesc   = "Name of the GitLab remote in your git repo. Defaults to 'origin'"
 	flagOutputFormatDesc = "One of 'export', 'json', 'table'. Default 'export', which can be executed to export variables"
+	flagGroupDesc        = "Set group to true to get only variables from the parent groups."
 )
 
 func glenCmd() *cobra.Command {
@@ -31,6 +32,9 @@ func glenCmd() *cobra.Command {
 
 	// outputFormat is the text format that we should use to print our results to stdout
 	var outputFormat string
+
+	// groupOnly determines if glen only gets variables from the project's parent groups
+	var groupOnly bool
 
 	cmd := &cobra.Command{
 		Use:   "glen",
@@ -55,6 +59,7 @@ variables and the variables of every parent group.`,
 			}
 
 			vars := glen.NewVariables(repo)
+			vars.GroupOnly = groupOnly
 			vars.Recurse = recurse
 			if apiKey != "GITLAB_TOKEN" {
 				vars.SetAPIKey(apiKey)
@@ -74,6 +79,7 @@ variables and the variables of every parent group.`,
 	cmd.Flags().StringVarP(&directory, "directory", "d", ".", flagDirectoryDesc)
 	cmd.Flags().StringVarP(&remoteName, "remote-name", "n", "origin", flagRemoteNameDesc)
 	cmd.Flags().StringVarP(&outputFormat, "output", "o", "export", flagOutputFormatDesc)
+	cmd.Flags().BoolVarP(&groupOnly, "group-only", "g", false, flagGroupDesc)
 
 	return cmd
 }

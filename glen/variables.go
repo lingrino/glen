@@ -10,9 +10,10 @@ import (
 // Variables represents a set of CI/CD environment variables and
 // the repo that those variables were collected from.
 type Variables struct {
-	Env     map[string]string
-	Recurse bool
-	Repo    *Repo
+	Env       map[string]string
+	GroupOnly bool
+	Recurse   bool
+	Repo      *Repo
 
 	apiKey string
 }
@@ -31,6 +32,7 @@ func NewVariables(r *Repo) *Variables {
 	v := &Variables{}
 
 	v.Env = make(map[string]string)
+	v.GroupOnly = false
 	v.Recurse = false
 	v.Repo = r
 	v.apiKey = os.Getenv("GITLAB_TOKEN")
@@ -111,15 +113,17 @@ func (v *Variables) Init() error {
 	}
 
 	// Get variables from the parent groups, if recurse
-	if v.Recurse {
+	if v.Recurse || v.GroupOnly {
 		for _, group := range v.Repo.Groups {
 			//nolint:errcheck
 			v.getGroupVariables(glc, group)
 		}
 	}
 
-	//nolint:errcheck
-	v.getProjectVariables(glc)
+	if !v.GroupOnly {
+		//nolint:errcheck
+		v.getProjectVariables(glc)
+	}
 
 	return nil
 }
