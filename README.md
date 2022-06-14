@@ -76,5 +76,6 @@ In particular, this project could benefit from the following:
 |                Contributors                |
 | :----------------------------------------: |
 | [@solidnerd](https://github.com/solidnerd) |
+|    [@bradym](https://github.com/bradym)    |
 
 [homebrew]: https://brew.sh/
