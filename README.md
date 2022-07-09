@@ -11,13 +11,13 @@ With the default flags you can run `eval $(glen -r)` to export your project's va
 
 ## Installation
 
-The easiest way to install glen is with [homebrew](https://brew.sh/)
+The easiest way to install glen is with [homebrew][]
 
 ```console
 brew install lingrino/tap/glen
 ```
 
-Glen can also be installed using [asdf](https://asdf-vm.com/):
+Glen can also be installed using [asdf][]:
 
 ```console
 asdf plugin-add glen
@@ -41,7 +41,7 @@ You can override all of these settings, specifying the API key, git directory, o
 
 By default glen will only get the variables from the current GitLab project. If you would also like glen to merge in variables from all of the project's parent groups then you can use `glen -r`
 
-Lastly, the default output for glen is called `export`, meaning that the ouput is ready to be read into your shell and will export all variables. This lets you call glen as `eval $(glen)` as a one line command to export all variables locally. You can also specify a `json` or `table` output for more machine or human friendly outputs.
+Lastly, the default output for glen is called `export`, meaning that the output is ready to be read into your shell and will export all variables. This lets you call glen as `eval $(glen)` as a one line command to export all variables locally. You can also specify a `json` or `table` output for more machine or human friendly outputs.
 
 ```console
 $ glen --help
@@ -75,7 +75,7 @@ Use "glen [command] --help" for more information about a command.
 
 ## Contributing
 
-Glen does one thing (reads variables from GitLab projects) and should do that one thing well. If you notice a bug with glen plesae file an issue or submit a PR.
+Glen does one thing (reads variables from GitLab projects) and should do that one thing well. If you notice a bug with glen please file an issue or submit a PR.
 
 Also, all contributions and ideas are welcome! Please submit an issue or a PR with anything that you think could be improved.
 
@@ -89,3 +89,4 @@ In particular, this project could benefit from the following:
 |    [@bradym](https://github.com/bradym)    |
 
 [homebrew]: https://brew.sh/
+[asdf]: https://asdf-vm.com/
