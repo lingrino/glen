@@ -6,7 +6,7 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/spf13/cobra v1.5.0
 	github.com/stretchr/testify v1.8.0
-	github.com/xanzy/go-gitlab v0.71.0
+	github.com/xanzy/go-gitlab v0.72.0
 	gopkg.in/src-d/go-git.v4 v4.13.1
 )
 
