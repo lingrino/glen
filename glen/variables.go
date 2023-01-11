@@ -47,7 +47,7 @@ func (v *Variables) SetAPIKey(key string) {
 	v.apiKey = key
 }
 
-// Check if apiKey is set to a non-empty value.
+// IsAPIKeySet checks if apiKey is set to a non-empty value.
 func (v *Variables) IsAPIKeySet() bool {
 	return v.apiKey != ""
 }
