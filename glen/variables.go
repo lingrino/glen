@@ -47,6 +47,11 @@ func (v *Variables) SetAPIKey(key string) {
 	v.apiKey = key
 }
 
+// IsAPIKeySet checks if apiKey is set to a non-empty value.
+func (v *Variables) IsAPIKeySet() bool {
+	return v.apiKey != ""
+}
+
 // Get the group variables and add them to v.Env.
 func (v *Variables) getGroupVariables(glc *gitlab.Client, group string) error {
 	groupVariablesOpt := &gitlab.ListGroupVariablesOptions{
