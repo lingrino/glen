@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/lingrino/glen/glen"
 	"github.com/spf13/cobra"
@@ -18,18 +19,14 @@ const (
 )
 
 func glenCmd() *cobra.Command {
-	// recurse determines if glen with also get variables from the project's parent groups
-	var recurse bool
-	// apiKey is the GitLab key that we should use when calling the API
-	var apiKey string
-	// directory is the path to the git repo that we should run glen on
-	var directory string
-	// remoteName is the name of the GitLab remote in your git repo
-	var remoteName string
-	// outputFormat is the text format that we should use to print our results to stdout
-	var outputFormat string
-	// groupOnly determines if glen only gets variables from the project's parent groups
-	var groupOnly bool
+	var (
+		recurse      bool   // recurse determines if glen with also get variables from the project's parent groups
+		apiKey       string // apiKey is the GitLab key that we should use when calling the API
+		directory    string // directory is the path to the git repo that we should run glen on
+		remoteName   string // remoteName is the name of the GitLab remote in your git repo
+		outputFormat string // outputFormat is the text format that we should use to print our results to stdout
+		groupOnly    bool   // groupOnly determines if glen only gets variables from the project's parent groups
+	)
 
 	cmd := &cobra.Command{
 		Use:   "glen",
@@ -58,6 +55,11 @@ variables and the variables of every parent group.`,
 			vars.Recurse = recurse
 			if apiKey != "GITLAB_TOKEN" {
 				vars.SetAPIKey(apiKey)
+			}
+
+			if !vars.IsAPIKeySet() {
+				fmt.Println("GitLab API key not set. Please use --api-key/-k flag or set GITLAB_TOKEN environment variable.")
+				os.Exit(1)
 			}
 
 			err = vars.Init()
