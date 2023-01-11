@@ -11,6 +11,7 @@ require (
 )
 
 require (
+	github.com/Microsoft/go-winio v0.5.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
@@ -27,8 +28,8 @@ require (
 	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/src-d/gcfg v1.4.0 // indirect
-	github.com/xanzy/ssh-agent v0.2.1 // indirect
-	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
+	github.com/xanzy/ssh-agent v0.3.3 // indirect
+	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
 	golang.org/x/net v0.0.0-20220805013720-a33c5aa5df48 // indirect
 	golang.org/x/oauth2 v0.0.0-20220722155238-128564f6959c // indirect
 	golang.org/x/sys v0.0.0-20220728004956-3c1f35247d10 // indirect
