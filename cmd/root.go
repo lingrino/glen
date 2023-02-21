@@ -67,7 +67,7 @@ variables and the variables of every parent group.`,
 				log.Fatal(err)
 			}
 
-			print(vars.Env, outputFormat)
+			output(vars.Env, outputFormat)
 		},
 	}
 
