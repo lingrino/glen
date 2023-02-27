@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/spf13/cobra v1.6.1
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.2
 	github.com/xanzy/go-gitlab v0.80.2
 	gopkg.in/src-d/go-git.v4 v4.13.1
 )
