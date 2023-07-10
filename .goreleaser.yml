@@ -35,7 +35,7 @@ brews:
     description: A CLI to gather GitLab project and group variables.
     homepage: https://lingrino.com/
     skip_upload: auto
-    tap:
+    repository:
       owner: lingrino
       name: homebrew-tap
     folder: Formula
@@ -44,16 +44,16 @@ brews:
       email: sean@lingrino.com
     test: |
       system "#{bin}/glen version"
-scoop:
-  bucket:
-    owner: lingrino
-    name: scoop-glen
-  description: A CLI to gather GitLab project and group variables.
-  homepage: https://lingrino.com/
-  license: MIT
-  commit_author:
-    name: Sean Lingren
-    email: sean@lingrino.com
+scoops:
+  - repository:
+      owner: lingrino
+      name: scoop-glen
+    description: A CLI to gather GitLab project and group variables.
+    homepage: https://lingrino.com/
+    license: MIT
+    commit_author:
+      name: Sean Lingren
+      email: sean@lingrino.com
 nfpms:
   - id: glen
     description: A CLI to gather GitLab project and group variables.
