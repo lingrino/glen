@@ -38,7 +38,7 @@ CI/CD pipeline and print them locally, ready for exporting.
 With the default flags you can run 'eval $(glen -r)' to export your project's
 variables and the variables of every parent group.`,
 		Args: cobra.ExactArgs(0),
-		Run: func(cmd *cobra.Command, args []string) {
+		Run: func(_ *cobra.Command, _ []string) {
 			var err error
 
 			repo := glen.NewRepo()
