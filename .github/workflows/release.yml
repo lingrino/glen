@@ -18,7 +18,7 @@ jobs:
         with:
           go-version: stable # https://golang.org/dl/
       - name: Docker Login
-        uses: docker/login-action@v3.0.0
+        uses: docker/login-action@v3.1.0
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
