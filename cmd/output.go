@@ -3,7 +3,7 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
 
 	"github.com/olekukonko/tablewriter"
@@ -19,7 +19,8 @@ func output(m map[string]string, format string) {
 	case "table":
 		outputTable(m)
 	default:
-		log.Fatalf("ERROR: Output type '%s' is not supported", format)
+		slog.Error("output type is not supported", "type", format)
+		os.Exit(1)
 	}
 }
 
@@ -35,7 +36,8 @@ func outputExport(m map[string]string) {
 func outputJSON(m map[string]string) {
 	json, err := json.MarshalIndent(m, "", "    ")
 	if err != nil {
-		log.Fatalf("ERROR: Failed to marshal the output into JSON")
+		slog.Error("failed to marshal the output into JSON")
+		os.Exit(1)
 	}
 	fmt.Println(string(json))
 }

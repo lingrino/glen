@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
 
 	"github.com/lingrino/glen/glen"
@@ -47,7 +47,8 @@ variables and the variables of every parent group.`,
 
 			err = repo.Init()
 			if err != nil {
-				log.Fatal(err)
+				slog.Error("failed to initialize the repository", "error", err)
+				os.Exit(1)
 			}
 
 			vars := glen.NewVariables(repo)
@@ -64,7 +65,8 @@ variables and the variables of every parent group.`,
 
 			err = vars.Init()
 			if err != nil {
-				log.Fatal(err)
+				slog.Error("failed to initialize variables", "error", err)
+				os.Exit(1)
 			}
 
 			output(vars.Env, outputFormat)
