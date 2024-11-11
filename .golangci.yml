@@ -8,12 +8,12 @@ linters:
     - bodyclose
     - containedctx
     - contextcheck
+    - copyloopvar
     - durationcheck
     - errcheck
     - errname
     - errorlint
     - exhaustive
-    - exportloopref
     - forcetypeassert
     - funlen
     - gci
@@ -26,7 +26,6 @@ linters:
     - godot
     - gofmt
     - goimports
-    - gomnd
     - goprintffuncname
     - gosec
     - gosimple
@@ -36,6 +35,7 @@ linters:
     - maintidx
     - makezero
     - misspell
+    - mnd
     - nakedret
     - nestif
     - nilerr
@@ -91,7 +91,6 @@ issues:
         - funlen # test function can be very long due to test cases
         - gochecknoglobals # globals in tests are fine
         - gocognit # test functions can be long/complex
-        - gomnd # there are many magic numbers in tests
     - path: example_*_test.go
       linters:
         - errcheck # not required to check errors in examples
