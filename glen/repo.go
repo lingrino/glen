@@ -49,7 +49,7 @@ func (r *Repo) Init() error {
 		remote = strings.TrimPrefix(remote, "https://")
 		remote = strings.TrimPrefix(remote, "ssh://git@")
 		remote = strings.TrimSuffix(remote, ".git")
-		remoteS := strings.SplitN(remote, "/", 2) //nolint:gomnd
+		remoteS := strings.SplitN(remote, "/", 2) //nolint:mnd
 
 		r.HTTPURL = remote
 		r.BaseURL = remoteS[0]
