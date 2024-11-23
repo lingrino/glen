@@ -43,14 +43,14 @@ brews:
     directory: Formula
     commit_author:
       name: Sean Lingren
-      email: sean@lingrino.com
+      email: sean@lingren.com
     test: |
       system "#{bin}/glen version"
 nfpms:
   - id: glen
     description: A CLI to gather GitLab project and group variables.
     homepage: https://lingrino.com/
-    maintainer: "Sean Lingren <sean@lingrino.com>"
+    maintainer: "Sean Lingren <sean@lingren.com>"
     license: MIT
     formats:
       - deb
@@ -65,6 +65,4 @@ dockers:
     build_flag_templates:
       - --label=org.opencontainers.image.created={{.Date}}
       - --label=org.opencontainers.image.revision={{.FullCommit}}
-      - --label=org.opencontainers.image.source={{.GitURL}}
-      - --label=org.opencontainers.image.title={{.ProjectName}}
       - --label=org.opencontainers.image.version={{.Version}}
