@@ -31,7 +31,7 @@ changelog:
       - Merge branch
 archives:
   - id: glen
-    format: zip
+    formats: ['zip']
 brews:
   - name: glen
     description: A CLI to gather GitLab project and group variables.
