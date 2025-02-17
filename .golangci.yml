@@ -49,7 +49,6 @@ linters:
     - staticcheck
     - stylecheck
     - tagliatelle
-    - tenv
     - thelper
     - tparallel
     - typecheck
@@ -74,8 +73,6 @@ linters-settings:
     max-func-lines: 0
   goconst:
     min-occurrences: 3
-  golint:
-    min-confidence: 0
 
 issues:
   exclude-rules:
