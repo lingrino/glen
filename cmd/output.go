@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/olekukonko/tablewriter"
+	"github.com/olekukonko/tablewriter/tw"
 )
 
 // output outputs a map of environment variables in the specified format.
@@ -49,11 +50,13 @@ func outputTable(m map[string]string) {
 		data = append(data, []string{k, v})
 	}
 
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetAlignment(tablewriter.ALIGN_LEFT)
-	table.SetCenterSeparator("|")
-	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-	table.SetHeader([]string{"Key", "Value"})
-	table.AppendBulk(data)
-	table.Render()
+	table := tablewriter.NewTable(os.Stdout,
+		tablewriter.WithAlignment([]tw.Align{tw.AlignLeft}),
+		tablewriter.WithRendition(tw.Rendition{
+			Borders: tw.Border{Left: tw.On, Top: tw.Off, Right: tw.On, Bottom: tw.Off},
+		}),
+	)
+	table.Header([]string{"Key", "Value"})
+	table.Bulk(data) //nolint:errcheck,gosec
+	table.Render()   //nolint:errcheck,gosec
 }
