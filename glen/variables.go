@@ -120,13 +120,13 @@ func (v *Variables) Init() error {
 	// Get variables from the parent groups, if recurse
 	if v.Recurse || v.GroupOnly {
 		for _, group := range v.Repo.Groups {
-			//nolint:errcheck
+			//nolint:errcheck,gosec
 			v.getGroupVariables(glc, group)
 		}
 	}
 
 	if !v.GroupOnly {
-		//nolint:errcheck
+		//nolint:errcheck,gosec
 		v.getProjectVariables(glc)
 	}
 
