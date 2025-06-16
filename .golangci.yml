@@ -1,5 +1,4 @@
-run:
-  timeout: 5m
+version: "2"
 
 linters:
   enable:
@@ -10,13 +9,11 @@ linters:
     - contextcheck
     - copyloopvar
     - durationcheck
-    - errcheck
     - errname
     - errorlint
     - exhaustive
     - forcetypeassert
     - funlen
-    - gci
     - gochecknoglobals
     - gochecknoinits
     - gocognit
@@ -24,13 +21,8 @@ linters:
     - gocritic
     - gocyclo
     - godot
-    - gofmt
-    - goimports
     - goprintffuncname
     - gosec
-    - gosimple
-    - govet
-    - ineffassign
     - ireturn
     - maintidx
     - makezero
@@ -47,48 +39,54 @@ linters:
     - predeclared
     - revive
     - staticcheck
-    - stylecheck
     - tagliatelle
     - thelper
     - tparallel
-    - typecheck
     - unconvert
-    - unused
     - wastedassign
     - whitespace
     - wrapcheck
 
-linters-settings:
-  dupl:
-    threshold: 100
-  errcheck:
-    check-blank: true
-  funlen:
-    lines: 70
-  gocognit:
-    min-complexity: 30
-  gocyclo:
-    min-complexity: 10
-  nakedret:
-    max-func-lines: 0
-  goconst:
-    min-occurrences: 3
+  settings:
+    dupl:
+      threshold: 100
+    errcheck:
+      check-blank: true
+    funlen:
+      lines: 70
+    gocognit:
+      min-complexity: 30
+    goconst:
+      min-occurrences: 3
+    gocyclo:
+      min-complexity: 10
+    nakedret:
+      max-func-lines: 0
 
-issues:
-  exclude-rules:
-    - path: main.go
-      linters:
-        - gochecknoglobals # global in main.go needed for testing
-    - path: cmd/
-      linters:
-        - dupl # CLIs are a lot of similar-looking code!
-    - path: _test.go
-      linters:
-        - dupl # many functions in tests look like duplicates
-        - funlen # test function can be very long due to test cases
-        - gochecknoglobals # globals in tests are fine
-        - gocognit # test functions can be long/complex
-    - path: example_*_test.go
-      linters:
-        - errcheck # not required to check errors in examples
-        - ineffassign # not required to check errors in examples
+  exclusions:
+    rules:
+      - linters:
+          - gochecknoglobals
+        path: main.go
+      - linters:
+          - dupl
+        path: cmd/
+      - linters:
+          - dupl
+          - funlen
+          - gochecknoglobals
+          - gocognit
+        path: _test.go
+      - linters:
+          - errcheck
+          - ineffassign
+        path: example_*_test.go
+      - linters:
+          - revive
+        text: "package-comments:"
+
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - goimports
