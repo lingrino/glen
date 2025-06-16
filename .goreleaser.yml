@@ -31,8 +31,8 @@ changelog:
       - Merge branch
 archives:
   - id: glen
-    formats: ['zip']
-brews:
+    formats: ["zip"]
+homebrew_casks:
   - name: glen
     description: A CLI to gather GitLab project and group variables.
     homepage: https://lingrino.com/
@@ -44,8 +44,6 @@ brews:
     commit_author:
       name: Sean Lingren
       email: sean@lingren.com
-    test: |
-      system "#{bin}/glen version"
 nfpms:
   - id: glen
     description: A CLI to gather GitLab project and group variables.
