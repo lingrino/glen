@@ -7,7 +7,7 @@
 
 Glen is a simple command line tool that, when run within a local GitLab project, will call the GitLab API to get all environment variables from your project's CI/CD pipeline and print them locally, ready for exporting.
 
-With the default flags you can run `eval $(glen -r)` to export your project's variables and the variables of every parent group.
+With the default flags you can run `eval $(glen -r)` to export the variables of your project and the variables of every parent group.
 
 ## Installation
 
@@ -49,8 +49,8 @@ Glen is a simple command line tool that, when run within a GitLab project,
 will call the GitLab API to get all environment variables from your project's
 CI/CD pipeline and print them locally, ready for exporting.
 
-With the default flags you can run 'eval $(glen -r)' to export your project's
-variables and the variables of every parent group.
+With the default flags you can run 'eval $(glen -r)' to export the variables of
+your project and the variables of every parent group.
 
 Usage:
   glen [flags]
@@ -63,9 +63,9 @@ Available Commands:
 
 Flags:
   -k, --api-key string       Your GitLab API key, if not set as a GITLAB_TOKEN environment variable (default "GITLAB_TOKEN")
-  -d, --directory string     The directory where you're git repo lives. Defaults to your current working directory (default ".")
+  -d, --directory string     The directory where your git repo lives. Defaults to your current working directory (default ".")
   -g, --group-only           Set group to true to get only variables from the parent groups.
-  -h, --help                 help for glen
+  -h, --help                 Help for glen
   -o, --output string        One of 'export', 'json', 'table'. Default 'export', which can be executed to export variables (default "export")
   -r, --recurse              Set recurse to true if you want to include the variables of the parent groups
   -n, --remote-name string   Name of the GitLab remote in your git repo. Defaults to 'origin' (default "origin")

@@ -12,7 +12,7 @@ import (
 const (
 	flagRecurseDesc      = "Set recurse to true if you want to include the variables of the parent groups"
 	flagAPIKeyDesc       = "Your GitLab API key, if not set as a GITLAB_TOKEN environment variable" //nolint:gosec
-	flagDirectoryDesc    = "The directory where you're git repo lives. Defaults to your current working directory"
+	flagDirectoryDesc    = "The directory where your git repo lives. Defaults to your current working directory"
 	flagRemoteNameDesc   = "Name of the GitLab remote in your git repo. Defaults to 'origin'"
 	flagOutputFormatDesc = "One of 'export', 'json', 'table'. Default 'export', which can be executed to export variables"
 	flagGroupDesc        = "Set group to true to get only variables from the parent groups."
@@ -35,8 +35,8 @@ func glenCmd() *cobra.Command {
 will call the GitLab API to get all environment variables from your project's
 CI/CD pipeline and print them locally, ready for exporting.
 
-With the default flags you can run 'eval $(glen -r)' to export your project's
-variables and the variables of every parent group.`,
+With the default flags you can run 'eval $(glen -r)' to export the variables of
+your project and the variables of every parent group.`,
 		Args: cobra.ExactArgs(0),
 		Run: func(_ *cobra.Command, _ []string) {
 			var err error
