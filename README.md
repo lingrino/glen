@@ -87,6 +87,7 @@ In particular, this project could benefit from the following:
 | :----------------------------------------: |
 | [@solidnerd](https://github.com/solidnerd) |
 |    [@bradym](https://github.com/bradym)    |
+|   [@mgonnav](https://github.com/mgonnav)   |
 
 [homebrew]: https://brew.sh/
 [asdf]: https://asdf-vm.com/
