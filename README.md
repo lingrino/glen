@@ -14,7 +14,7 @@ With the default flags you can run `eval $(glen -r)` to export the variables of 
 The easiest way to install glen is with [homebrew][]
 
 ```console
-brew install lingrino/tap/glen
+brew install --cask lingrino/tap/glen
 ```
 
 Glen can also be installed using [asdf][]:
