@@ -1,6 +1,6 @@
 module github.com/lingrino/glen
 
-go 1.24.0
+go 1.25.1
 
 require (
 	github.com/go-git/go-git/v5 v5.16.2
