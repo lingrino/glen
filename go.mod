@@ -1,6 +1,6 @@
 module github.com/lingrino/glen
 
-go 1.25.1
+go 1.25.5
 
 require (
 	github.com/go-git/go-git/v5 v5.16.4
@@ -39,7 +39,6 @@ require (
 	github.com/olekukonko/ll v0.1.3 // indirect
 	github.com/pjbgf/sha1cd v0.3.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/sergi/go-diff v1.4.0 // indirect
 	github.com/skeema/knownhosts v1.3.1 // indirect
 	github.com/spf13/pflag v1.0.9 // indirect
