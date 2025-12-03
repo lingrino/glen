@@ -21,7 +21,8 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v6
         with:
-          go-version: stable # https://golang.org/dl/
+          # go-version: stable # https://golang.org/dl/
+          go-version: 1.25.5 # until defatul greater than 1.25.5 is released
       - name: Docker Login
         uses: docker/login-action@v3.6.0
         with:
