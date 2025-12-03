@@ -55,8 +55,10 @@ func (v *Variables) IsAPIKeySet() bool {
 // Get the group variables and add them to v.Env.
 func (v *Variables) getGroupVariables(glc *gitlab.Client, group string) error {
 	groupVariablesOpt := &gitlab.ListGroupVariablesOptions{
-		PerPage: pageSize,
-		Page:    1,
+		ListOptions: gitlab.ListOptions{
+			PerPage: pageSize,
+			Page:    1,
+		},
 	}
 
 	for {
@@ -81,8 +83,10 @@ func (v *Variables) getGroupVariables(glc *gitlab.Client, group string) error {
 // Get the project variables and add them to v.Env.
 func (v *Variables) getProjectVariables(glc *gitlab.Client) error {
 	projectVariablesOpt := &gitlab.ListProjectVariablesOptions{
-		PerPage: pageSize,
-		Page:    1,
+		ListOptions: gitlab.ListOptions{
+			PerPage: pageSize,
+			Page:    1,
+		},
 	}
 
 	for {
