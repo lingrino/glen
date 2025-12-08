@@ -5,9 +5,9 @@ go 1.25.5
 require (
 	github.com/go-git/go-git/v5 v5.16.4
 	github.com/olekukonko/tablewriter v1.1.2
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
-	gitlab.com/gitlab-org/api/client-go v1.4.1
+	gitlab.com/gitlab-org/api/client-go v1.7.0
 )
 
 require (
