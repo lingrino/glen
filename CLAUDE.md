@@ -37,10 +37,17 @@ Glen is a CLI tool that fetches GitLab CI/CD environment variables from a projec
 
 **Data flow:**
 1. `Repo.Init()` reads the git remote URL and parses it into GitLab-compatible paths
-2. `Variables.Init()` creates a GitLab API client and fetches variables, respecting GitLab's variable precedence (group vars first, then project vars override)
+2. `Variables.Init()` creates a GitLab API client and fetches variables, respecting [GitLab's variable precedence](https://docs.gitlab.com/ee/ci/variables/#priority-of-environment-variables) (group vars fetched first, then project vars override them)
 3. Output is formatted as `export` (shell-ready), `json`, or `table`
 
+**Key CLI flags:**
+- `-k, --api-key` - GitLab API key (defaults to `GITLAB_TOKEN` env var)
+- `-r, --recurse` - Include variables from parent groups (defaults to false, so only project vars by default)
+- `-g, --group-only` - Only fetch group variables, skip project variables
+- `-o, --output` - Output format: `export` (default), `json`, or `table`
+- `-d, --directory` - Git repo path (defaults to current directory)
+- `-n, --remote-name` - Git remote name (defaults to `origin`)
+
 **Key behaviors:**
-- API key comes from `GITLAB_TOKEN` env var by default, or `--api-key` flag
 - Supports both SSH (`git@`) and HTTP(S) remote URLs
-- Parent groups are processed from outermost to innermost, with project variables having highest precedence
+- Parent groups are processed from outermost to innermost, with project variables having highest precedence per GitLab's priority rules
