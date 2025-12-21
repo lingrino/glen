@@ -25,6 +25,12 @@ asdf install glen latest
 asdf global glen latest
 ```
 
+Glen can also be installed using [mise](https://github.com/jdx/mise):
+
+```shell
+mise use -g glen@latest
+```
+
 Glen can also be installed by downloading the latest binary from the releases page and adding it to your path.
 
 Alternatively you can install glen using `go get`, assuming you have `$GOPATH/bin` in your path.
