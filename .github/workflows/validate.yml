@@ -1,80 +1,69 @@
-name: Validate
+name: validate
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   golangci:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v6
-      - name: Install Go
+      - name: install go
         uses: actions/setup-go@v6
         with:
-          # go-version: stable # https://golang.org/dl/
-          go-version: 1.25.5 # until defatul greater than 1.25.5 is released
-      - name: Lint
+          go-version: stable
+      - name: lint
         uses: golangci/golangci-lint-action@v9
         with:
           args: --timeout=5m
   gomod:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v6
-      - name: Install Go
+      - name: install go
         uses: actions/setup-go@v6
         with:
-          # go-version: stable # https://golang.org/dl/
-          go-version: 1.25.5 # until defatul greater than 1.25.5 is released
-      - name: Go Mod Tidy
+          go-version: stable
+      - name: go mod tidy
         run: test -z $(go mod tidy)
   govulncheck:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v6
-      - name: Install Go
+      - name: install go
         uses: actions/setup-go@v6
         with:
-          # go-version: stable # https://golang.org/dl/
-          go-version: 1.25.5 # until defatul greater than 1.25.5 is released
-      - name: Install govulncheck
+          go-version: stable
+      - name: install govulncheck
         run: go install golang.org/x/vuln/cmd/govulncheck@latest
-      - name: Run govulncheck
+      - name: run govulncheck
         run: govulncheck ./...
   goreleaser:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v6
-      - name: Install Go
+      - name: install go
         uses: actions/setup-go@v6
         with:
-          # go-version: stable # https://golang.org/dl/
-          go-version: 1.25.5 # until defatul greater than 1.25.5 is released
-      - name: Goreleaser Check
+          go-version: stable
+      - name: goreleaser check
         uses: goreleaser/goreleaser-action@v6.4.0
         with:
           args: check
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v6
-      - name: Install Go
+      - name: install go
         uses: actions/setup-go@v6
         with:
-          # go-version: stable # https://golang.org/dl/
-          go-version: 1.25.5 # until defatul greater than 1.25.5 is released
-      - name: Cache Modules
-        uses: actions/cache@v5
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-      - name: Test
+          go-version: stable
+      - name: test
         run: go test -cover -coverprofile=c.out -covermode=atomic -race -v ./...
