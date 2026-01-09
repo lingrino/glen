@@ -266,220 +266,264 @@ func TestExtractGroups(t *testing.T) {
 func TestGetRemoteFromLocalRepoPath(t *testing.T) {
 	t.Parallel()
 
-	t.Run("reads origin remote URL", func(t *testing.T) {
-		t.Parallel()
+	tests := []struct {
+		name        string
+		remoteName  string
+		setupRepo   func(t *testing.T) string // returns path to test directory
+		wantURL     string
+		wantErr     bool
+		errContains string
+	}{
+		{
+			name:       "reads origin remote URL",
+			remoteName: "origin",
+			setupRepo: func(t *testing.T) string {
+				t.Helper()
+				tmpDir := t.TempDir()
+				repo, err := git.PlainInit(tmpDir, false)
+				require.NoError(t, err)
+				_, err = repo.CreateRemote(&config.RemoteConfig{
+					Name: "origin",
+					URLs: []string{"git@gitlab.com:testgroup/testproject.git"},
+				})
+				require.NoError(t, err)
 
-		// Create temp directory for test repo
-		tmpDir := t.TempDir()
+				return tmpDir
+			},
+			wantURL: "git@gitlab.com:testgroup/testproject.git",
+			wantErr: false,
+		},
+		{
+			name:       "reads custom remote name",
+			remoteName: "upstream",
+			setupRepo: func(t *testing.T) string {
+				t.Helper()
+				tmpDir := t.TempDir()
+				repo, err := git.PlainInit(tmpDir, false)
+				require.NoError(t, err)
+				_, err = repo.CreateRemote(&config.RemoteConfig{
+					Name: "upstream",
+					URLs: []string{"https://gitlab.example.com/org/repo.git"},
+				})
+				require.NoError(t, err)
 
-		// Initialize git repo using go-git (pure Go, no git binary needed)
-		repo, err := git.PlainInit(tmpDir, false)
-		require.NoError(t, err, "failed to init git repo")
+				return tmpDir
+			},
+			wantURL: "https://gitlab.example.com/org/repo.git",
+			wantErr: false,
+		},
+		{
+			name:       "returns first URL when multiple URLs configured",
+			remoteName: "origin",
+			setupRepo: func(t *testing.T) string {
+				t.Helper()
+				tmpDir := t.TempDir()
+				repo, err := git.PlainInit(tmpDir, false)
+				require.NoError(t, err)
+				_, err = repo.CreateRemote(&config.RemoteConfig{
+					Name: "origin",
+					URLs: []string{
+						"git@gitlab.com:group/project.git",
+						"https://gitlab.com/group/project.git",
+					},
+				})
+				require.NoError(t, err)
 
-		// Add a remote
-		expectedURL := "git@gitlab.com:testgroup/testproject.git"
-		_, err = repo.CreateRemote(&config.RemoteConfig{
-			Name: "origin",
-			URLs: []string{expectedURL},
+				return tmpDir
+			},
+			wantURL: "git@gitlab.com:group/project.git",
+			wantErr: false,
+		},
+		{
+			name:       "error when remote does not exist",
+			remoteName: "nonexistent",
+			setupRepo: func(t *testing.T) string {
+				t.Helper()
+				tmpDir := t.TempDir()
+				_, err := git.PlainInit(tmpDir, false)
+				require.NoError(t, err)
+
+				return tmpDir
+			},
+			wantErr:     true,
+			errContains: "unable to find selected remote",
+		},
+		{
+			name:       "error when path is not a git repo",
+			remoteName: "origin",
+			setupRepo: func(t *testing.T) string {
+				t.Helper()
+
+				return t.TempDir()
+			},
+			wantErr:     true,
+			errContains: "unable to open git repository",
+		},
+		{
+			name:       "error when path does not exist",
+			remoteName: "origin",
+			setupRepo: func(_ *testing.T) string {
+				return "/nonexistent/path/to/repo"
+			},
+			wantErr:     true,
+			errContains: "unable to open git repository",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			path := tt.setupRepo(t)
+			remoteURL, err := getRemoteFromLocalRepoPath(path, tt.remoteName)
+
+			if tt.wantErr {
+				require.Error(t, err)
+				assert.Contains(t, err.Error(), tt.errContains)
+
+				return
+			}
+
+			require.NoError(t, err)
+			assert.Equal(t, tt.wantURL, remoteURL)
 		})
-		require.NoError(t, err, "failed to create remote")
-
-		// Test getRemoteFromLocalRepoPath
-		remoteURL, err := getRemoteFromLocalRepoPath(tmpDir, "origin")
-		require.NoError(t, err)
-		assert.Equal(t, expectedURL, remoteURL)
-	})
-
-	t.Run("reads custom remote name", func(t *testing.T) {
-		t.Parallel()
-
-		tmpDir := t.TempDir()
-
-		repo, err := git.PlainInit(tmpDir, false)
-		require.NoError(t, err)
-
-		expectedURL := "https://gitlab.example.com/org/repo.git"
-		_, err = repo.CreateRemote(&config.RemoteConfig{
-			Name: "upstream",
-			URLs: []string{expectedURL},
-		})
-		require.NoError(t, err)
-
-		remoteURL, err := getRemoteFromLocalRepoPath(tmpDir, "upstream")
-		require.NoError(t, err)
-		assert.Equal(t, expectedURL, remoteURL)
-	})
-
-	t.Run("returns first URL when multiple URLs configured", func(t *testing.T) {
-		t.Parallel()
-
-		tmpDir := t.TempDir()
-
-		repo, err := git.PlainInit(tmpDir, false)
-		require.NoError(t, err)
-
-		firstURL := "git@gitlab.com:group/project.git"
-		secondURL := "https://gitlab.com/group/project.git"
-		_, err = repo.CreateRemote(&config.RemoteConfig{
-			Name: "origin",
-			URLs: []string{firstURL, secondURL},
-		})
-		require.NoError(t, err)
-
-		remoteURL, err := getRemoteFromLocalRepoPath(tmpDir, "origin")
-		require.NoError(t, err)
-		assert.Equal(t, firstURL, remoteURL)
-	})
-
-	t.Run("error when remote does not exist", func(t *testing.T) {
-		t.Parallel()
-
-		tmpDir := t.TempDir()
-
-		_, err := git.PlainInit(tmpDir, false)
-		require.NoError(t, err)
-
-		_, err = getRemoteFromLocalRepoPath(tmpDir, "nonexistent")
-		assert.Error(t, err)
-		assert.Contains(t, err.Error(), "unable to find selected remote")
-	})
-
-	t.Run("error when path is not a git repo", func(t *testing.T) {
-		t.Parallel()
-
-		tmpDir := t.TempDir()
-
-		_, err := getRemoteFromLocalRepoPath(tmpDir, "origin")
-		assert.Error(t, err)
-		assert.Contains(t, err.Error(), "unable to open git repository")
-	})
-
-	t.Run("error when path does not exist", func(t *testing.T) {
-		t.Parallel()
-
-		_, err := getRemoteFromLocalRepoPath("/nonexistent/path/to/repo", "origin")
-		assert.Error(t, err)
-		assert.Contains(t, err.Error(), "unable to open git repository")
-	})
+	}
 }
 
 // TestRepoInit tests the full Init() flow with real git repositories.
 func TestRepoInit(t *testing.T) {
 	t.Parallel()
 
-	t.Run("initializes repo with SSH remote", func(t *testing.T) {
-		t.Parallel()
+	tests := []struct {
+		name          string
+		remoteName    string
+		setupRepo     func(t *testing.T) string // returns path to test directory
+		wantBaseURL   string
+		wantPath      string
+		wantHTTPURL   string
+		wantRemoteURL string
+		wantGroups    []string
+		wantErr       bool
+		errContains   string
+	}{
+		{
+			name:       "initializes repo with SSH remote",
+			remoteName: "origin",
+			setupRepo: func(t *testing.T) string {
+				t.Helper()
+				tmpDir := t.TempDir()
+				repo, err := git.PlainInit(tmpDir, false)
+				require.NoError(t, err)
+				_, err = repo.CreateRemote(&config.RemoteConfig{
+					Name: "origin",
+					URLs: []string{"git@gitlab.com:myorg/myteam/myproject.git"},
+				})
+				require.NoError(t, err)
 
-		tmpDir := t.TempDir()
+				return tmpDir
+			},
+			wantBaseURL:   "gitlab.com",
+			wantPath:      "myorg/myteam/myproject",
+			wantHTTPURL:   "gitlab.com/myorg/myteam/myproject",
+			wantRemoteURL: "git@gitlab.com:myorg/myteam/myproject.git",
+			wantGroups:    []string{"myorg/myteam", "myorg"},
+		},
+		{
+			name:       "initializes repo with HTTPS remote",
+			remoteName: "origin",
+			setupRepo: func(t *testing.T) string {
+				t.Helper()
+				tmpDir := t.TempDir()
+				repo, err := git.PlainInit(tmpDir, false)
+				require.NoError(t, err)
+				_, err = repo.CreateRemote(&config.RemoteConfig{
+					Name: "origin",
+					URLs: []string{"https://gitlab.example.com/company/product.git"},
+				})
+				require.NoError(t, err)
 
-		gitRepo, err := git.PlainInit(tmpDir, false)
-		require.NoError(t, err)
+				return tmpDir
+			},
+			wantBaseURL:   "gitlab.example.com",
+			wantPath:      "company/product",
+			wantHTTPURL:   "gitlab.example.com/company/product",
+			wantRemoteURL: "https://gitlab.example.com/company/product.git",
+			wantGroups:    []string{"company"},
+		},
+		{
+			name:       "initializes repo with custom remote name",
+			remoteName: "gitlab",
+			setupRepo: func(t *testing.T) string {
+				t.Helper()
+				tmpDir := t.TempDir()
+				repo, err := git.PlainInit(tmpDir, false)
+				require.NoError(t, err)
+				_, err = repo.CreateRemote(&config.RemoteConfig{
+					Name: "gitlab",
+					URLs: []string{"git@gitlab.com:team/project.git"},
+				})
+				require.NoError(t, err)
 
-		_, err = gitRepo.CreateRemote(&config.RemoteConfig{
-			Name: "origin",
-			URLs: []string{"git@gitlab.com:myorg/myteam/myproject.git"},
+				return tmpDir
+			},
+			wantBaseURL:   "gitlab.com",
+			wantPath:      "team/project",
+			wantHTTPURL:   "gitlab.com/team/project",
+			wantRemoteURL: "git@gitlab.com:team/project.git",
+			wantGroups:    []string{"team"},
+		},
+		{
+			name:       "error when git repo does not exist",
+			remoteName: "origin",
+			setupRepo: func(_ *testing.T) string {
+				return "/nonexistent/path"
+			},
+			wantErr:     true,
+			errContains: "unable to open git repository",
+		},
+		{
+			name:       "error when remote does not exist",
+			remoteName: "nonexistent",
+			setupRepo: func(t *testing.T) string {
+				t.Helper()
+				tmpDir := t.TempDir()
+				_, err := git.PlainInit(tmpDir, false)
+				require.NoError(t, err)
+
+				return tmpDir
+			},
+			wantErr:     true,
+			errContains: "unable to find selected remote",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			path := tt.setupRepo(t)
+			repo := &Repo{
+				LocalPath:  path,
+				RemoteName: tt.remoteName,
+			}
+
+			err := repo.Init()
+
+			if tt.wantErr {
+				require.Error(t, err)
+				assert.Contains(t, err.Error(), tt.errContains)
+
+				return
+			}
+
+			require.NoError(t, err)
+			assert.Equal(t, tt.wantBaseURL, repo.BaseURL)
+			assert.Equal(t, tt.wantPath, repo.Path)
+			assert.Equal(t, tt.wantHTTPURL, repo.HTTPURL)
+			assert.Equal(t, tt.wantRemoteURL, repo.RemoteURL)
+			assert.Equal(t, tt.wantGroups, repo.Groups)
 		})
-		require.NoError(t, err)
-
-		repo := &Repo{
-			LocalPath:  tmpDir,
-			RemoteName: "origin",
-		}
-
-		err = repo.Init()
-		require.NoError(t, err)
-
-		assert.Equal(t, "gitlab.com", repo.BaseURL)
-		assert.Equal(t, "myorg/myteam/myproject", repo.Path)
-		assert.Equal(t, "gitlab.com/myorg/myteam/myproject", repo.HTTPURL)
-		assert.Equal(t, "git@gitlab.com:myorg/myteam/myproject.git", repo.RemoteURL)
-		assert.Equal(t, []string{"myorg/myteam", "myorg"}, repo.Groups)
-	})
-
-	t.Run("initializes repo with HTTPS remote", func(t *testing.T) {
-		t.Parallel()
-
-		tmpDir := t.TempDir()
-
-		gitRepo, err := git.PlainInit(tmpDir, false)
-		require.NoError(t, err)
-
-		_, err = gitRepo.CreateRemote(&config.RemoteConfig{
-			Name: "origin",
-			URLs: []string{"https://gitlab.example.com/company/product.git"},
-		})
-		require.NoError(t, err)
-
-		repo := &Repo{
-			LocalPath:  tmpDir,
-			RemoteName: "origin",
-		}
-
-		err = repo.Init()
-		require.NoError(t, err)
-
-		assert.Equal(t, "gitlab.example.com", repo.BaseURL)
-		assert.Equal(t, "company/product", repo.Path)
-		assert.Equal(t, "gitlab.example.com/company/product", repo.HTTPURL)
-		assert.Equal(t, []string{"company"}, repo.Groups)
-	})
-
-	t.Run("initializes repo with custom remote name", func(t *testing.T) {
-		t.Parallel()
-
-		tmpDir := t.TempDir()
-
-		gitRepo, err := git.PlainInit(tmpDir, false)
-		require.NoError(t, err)
-
-		_, err = gitRepo.CreateRemote(&config.RemoteConfig{
-			Name: "gitlab",
-			URLs: []string{"git@gitlab.com:team/project.git"},
-		})
-		require.NoError(t, err)
-
-		repo := &Repo{
-			LocalPath:  tmpDir,
-			RemoteName: "gitlab",
-		}
-
-		err = repo.Init()
-		require.NoError(t, err)
-
-		assert.Equal(t, "gitlab.com", repo.BaseURL)
-		assert.Equal(t, "team/project", repo.Path)
-	})
-
-	t.Run("error when git repo does not exist", func(t *testing.T) {
-		t.Parallel()
-
-		repo := &Repo{
-			LocalPath:  "/nonexistent/path",
-			RemoteName: "origin",
-		}
-
-		err := repo.Init()
-		assert.Error(t, err)
-		assert.Contains(t, err.Error(), "unable to open git repository")
-	})
-
-	t.Run("error when remote does not exist", func(t *testing.T) {
-		t.Parallel()
-
-		tmpDir := t.TempDir()
-
-		_, err := git.PlainInit(tmpDir, false)
-		require.NoError(t, err)
-
-		repo := &Repo{
-			LocalPath:  tmpDir,
-			RemoteName: "nonexistent",
-		}
-
-		err = repo.Init()
-		assert.Error(t, err)
-		assert.Contains(t, err.Error(), "unable to find selected remote")
-	})
+	}
 }
 
 // TestRepoInitFromSubdirectory verifies that Init() requires the repo root path.
