@@ -137,6 +137,14 @@ func TestParseRemoteURL(t *testing.T) {
 			wantHTTPURL: "gitlab.com/org/team/project",
 			wantErr:     false,
 		},
+		{
+			name:        "ssh:// protocol format with port",
+			remoteURL:   "ssh://git@gitlab.example.com:2222/group/project.git",
+			wantBaseURL: "gitlab.example.com:2222",
+			wantPath:    "group/project",
+			wantHTTPURL: "gitlab.example.com:2222/group/project",
+			wantErr:     false,
+		},
 
 		// Edge cases - whitespace handling
 		{
@@ -196,8 +204,7 @@ func TestParseRemoteURL(t *testing.T) {
 			baseURL, repoPath, httpURL, err := ParseRemoteURL(tt.remoteURL)
 
 			if tt.wantErr {
-				assert.Error(t, err)
-				assert.ErrorIs(t, err, ErrInvalidRemoteURL)
+				require.ErrorIs(t, err, ErrInvalidRemoteURL)
 
 				return
 			}

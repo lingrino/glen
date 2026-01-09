@@ -68,8 +68,8 @@ func (r *Repo) Init() error {
 
 // ParseRemoteURL parses a git remote URL and extracts GitLab components.
 // It supports HTTPS, HTTP, and SSH URL formats.
-// Returns baseURL (e.g., "gitlab.com"), path (e.g., "group/project"),
-// and httpURL (e.g., "gitlab.com/group/project").
+// Returns baseURL (e.g., "gitlab.com"), repoPath (e.g., "group/project"),
+// and httpURL which is the host+path without protocol (e.g., "gitlab.com/group/project").
 func ParseRemoteURL(remoteURL string) (baseURL, repoPath, httpURL string, err error) {
 	remote := strings.TrimSpace(remoteURL)
 	if remote == "" {
@@ -113,7 +113,7 @@ func ParseRemoteURL(remoteURL string) (baseURL, repoPath, httpURL string, err er
 }
 
 // ExtractGroups returns the list of parent group paths for a given project path.
-// Groups are returned from innermost to outermost.
+// Groups are ordered from the immediate parent to the root group.
 // For example, "group1/subgroup/project" returns ["group1/subgroup", "group1"].
 func ExtractGroups(projectPath string) []string {
 	var groups []string
@@ -142,7 +142,10 @@ func getRemoteFromLocalRepoPath(path string, remote string) (string, error) {
 		return "", fmt.Errorf("unable to find selected remote (%s) with the following error: %w", remote, err)
 	}
 
-	firstURL := rm.Config().URLs[0]
+	urls := rm.Config().URLs
+	if len(urls) == 0 {
+		return "", fmt.Errorf("remote (%s) has no configured URLs", remote)
+	}
 
-	return firstURL, nil
+	return urls[0], nil
 }
