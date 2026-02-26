@@ -1,6 +1,6 @@
 module github.com/lingrino/glen
 
-go 1.25.5
+go 1.26.0
 
 require (
 	github.com/go-git/go-git/v5 v5.16.5
@@ -44,7 +44,6 @@ require (
 	github.com/spf13/pflag v1.0.9 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	golang.org/x/crypto v0.45.0 // indirect
-	golang.org/x/exp v0.0.0-20250813145105-42675adae3e6 // indirect
 	golang.org/x/net v0.47.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
 	golang.org/x/sys v0.39.0 // indirect
