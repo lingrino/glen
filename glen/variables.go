@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	gitlab "gitlab.com/gitlab-org/api/client-go"
+	gitlab "gitlab.com/gitlab-org/api/client-go/v2"
 )
 
 // Variables represents a set of CI/CD environment variables and
