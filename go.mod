@@ -3,11 +3,11 @@ module github.com/lingrino/glen
 go 1.26.0
 
 require (
-	github.com/go-git/go-git/v5 v5.17.1
+	github.com/go-git/go-git/v5 v5.17.2
 	github.com/olekukonko/tablewriter v1.1.4
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
-	gitlab.com/gitlab-org/api/client-go/v2 v2.11.0
+	gitlab.com/gitlab-org/api/client-go/v2 v2.16.0
 )
 
 require (
