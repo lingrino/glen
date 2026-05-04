@@ -7,7 +7,7 @@ require (
 	github.com/olekukonko/tablewriter v1.1.4
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
-	gitlab.com/gitlab-org/api/client-go/v2 v2.20.1
+	gitlab.com/gitlab-org/api/client-go/v2 v2.24.0
 )
 
 require (
