@@ -12,6 +12,8 @@ import (
 // ErrInvalidRemoteURL is returned when a remote URL cannot be parsed.
 var ErrInvalidRemoteURL = errors.New("invalid remote URL")
 
+const defaultRemoteName = "origin"
+
 // Repo represents information about a git repo.
 // Repo does not represent ALL information about a repo, only the information
 // needed for this package (for gathering GitLab variables).
@@ -35,7 +37,7 @@ func NewRepo() *Repo {
 	r := &Repo{}
 
 	r.LocalPath = "."
-	r.RemoteName = "origin"
+	r.RemoteName = defaultRemoteName
 
 	return r
 }

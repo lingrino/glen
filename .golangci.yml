@@ -76,6 +76,7 @@ linters:
           - funlen
           - gochecknoglobals
           - gocognit
+          - goconst
         path: _test.go
       - linters:
           - errcheck
