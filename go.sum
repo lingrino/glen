@@ -148,6 +148,8 @@ gitlab.com/gitlab-org/api/client-go/v2 v2.40.0 h1:or70sFYvICc+Gg4hyBuYn85+YZRKgo
 gitlab.com/gitlab-org/api/client-go/v2 v2.40.0/go.mod h1:SKUbKSS59KPt6WeGNJoYF8HDaf/rFMUSITlftj/HkLg=
 gitlab.com/gitlab-org/api/client-go/v2 v2.43.0 h1:CxvWrDmW6/NAmnFeC4if5SGSP/0X54RIYox4sMo7pH0=
 gitlab.com/gitlab-org/api/client-go/v2 v2.43.0/go.mod h1:pTbeBowtVA+0/ZExWEZYUGOrpu5qlRN5ZyOUf27BnVY=
+gitlab.com/gitlab-org/api/client-go/v2 v2.46.0 h1:t9QSeMck3kuHu9R6C7h8cYk4qBI4ZD4SQ0jspxKYs2E=
+gitlab.com/gitlab-org/api/client-go/v2 v2.46.0/go.mod h1:1LK5UOowqo9apkL+zn7sM8t/hCzBV6F1b2RUIHL9+Oo=
 go.yaml.in/yaml/v3 v3.0.4/go.mod h1:DhzuOOF2ATzADvBadXxruRBLzYTpT36CKvDb3+aBEFg=
 golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
 golang.org/x/crypto v0.45.0 h1:jMBrvKuj23MTlT0bQEOBcAE0mjg8mK9RXFhRH6nyF3Q=
