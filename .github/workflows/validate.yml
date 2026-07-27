@@ -12,7 +12,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v7
       - name: install go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: stable
       - name: lint
@@ -25,7 +25,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v7
       - name: install go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: stable
       - name: go mod tidy
@@ -36,7 +36,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v7
       - name: install go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: stable
       - name: install govulncheck
@@ -49,7 +49,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v7
       - name: install go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: stable
       - name: goreleaser check
@@ -62,7 +62,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v7
       - name: install go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: stable
       - name: test
